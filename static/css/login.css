@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+form {
+  width: 100%;
+  height: auto;
+  padding-bottom: 0.5em;
+  display: block;
+}
+form > div {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  display: block;
+}
+button[type="submit"],
+button[type="button"] {
+  width: 90vw;
+  height: auto;
+  line-height: 2.8em;
+  border-radius: 1.4em;
+  background-color: #5bcc3f;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 1.3em;
+  display: inline-block;
+  letter-spacing: 0.8em;
+}

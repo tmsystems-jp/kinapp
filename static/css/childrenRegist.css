@@ -1,0 +1,150 @@
+@charset "utf-8";
+
+main > div {
+  width: 100%;
+}
+form {
+  padding: 0.3em 0.5em;
+  width: 100%;
+  height: auto;
+}
+*[data-edit] {
+  display: block;
+}
+*[data-edit] + div {
+  display: none;
+}
+*[data-edit="off"] {
+  display: none;
+}
+*[data-edit="off"] + div {
+  display: block;
+}
+.basicInfo {
+  width: 100%;
+  height: auto;
+  padding: 0.3em;
+}
+.basicInfo dl {
+  width: 100%;
+  height: auto;
+  min-height: 13vw;
+  text-align: left;
+  display: block;
+}
+.basicInfo dl[data-edit="off"] {
+  width: auto;
+  height: auto;
+  padding-left: 13vw;
+  display: inline-block;
+}
+.basicInfo dt {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 13vw;
+  height: 13vw;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  transform: translate(0, -50%);
+  z-index: 100;
+}
+.basicInfo dd {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  z-index: 100;
+}
+.basicInfo dd > div div {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  padding: 0.2em 0.5em;
+  display: block;
+}
+.basicInfo dd > div div p {
+  font-size: 0.8em;
+  padding-right: 0.5em;
+}
+.basicInfo label {
+  width: auto;
+  height: auto;
+  font-size: 0.8em;
+  text-align: left;
+  display: inline-block;
+}
+.childInfo {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 0.5em 0.5em 0 0;
+  height: auto;
+}
+.childInfo[data-edit="off"] {
+  display: block;
+}
+.childInfo > nav {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.childInfo > nav > label {
+  width: 100%;
+  height: auto;
+  font-size: 0.8em;
+  line-height: 1.8em;
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+.childInfo > nav > label:first-of-type {
+  border: none;
+}
+.childInfo .content_class label {
+  font-size: 0.8em;
+}
+input[name="tab_name"] {
+  display: none;
+}
+input:checked + .tab_class {
+  background-color: cadetblue;
+  color: aliceblue;
+}
+.content_class {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+input:checked + .content_class {
+  display: block;
+}
+#tab1 + div div {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  display: block;
+}
+#tab1 + div fieldset {
+  padding-left: 6em;
+  padding-top: 0.8em;
+  width: 100%;
+  height: auto;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  display: block;
+}
+#tab1 + div legend {
+  position: absolute;
+  bottom: 0;
+  left: 0.5em;
+  width: auto;
+  height: auto;
+  font-size: 0.7em;
+  padding: 0.2em 0;
+  color: rgba(0, 0, 0, 0.5);
+  display: block;
+}
+.content_class label {
+  padding: 0.3em 0;
+  margin-right: 0.5em;
+}

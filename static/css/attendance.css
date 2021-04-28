@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+  article{
+    width: 100%;
+    height: auto;
+    padding: 0.3em 0.5em;
+    text-align: center;
+  }
+  h2{
+    font-size: 1em;
+  }
+  dl,dt,dd{
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  dd>div{
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.8);
+    padding: 0.5em 0.8em;
+    text-align: left;
+  }
+  .plans{
+    width: auto;
+    height: auto;
+    display: inline-block;
+  }

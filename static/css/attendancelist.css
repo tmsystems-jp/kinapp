@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+ main{
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  div{
+    width: 100%;
+    height: auto;
+    padding: 0.2em 0.5em;
+  }
+  table{
+    width: 100%;
+    height: auto;
+    padding: 0.3em 0.5em;
+  }
+  table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    line-height: 2.0;
+  }
+  
+  th {
+    height: 2.6em;
+    line-height: 1.3em;
+    /* padding: 0.2em 0.5em; */
+    font-weight: bold;
+    vertical-align: top;
+    background: #32eb0d;
+    color: #ffffff;
+    vertical-align: middle;
+  }
+  td {
+    height: 2em;
+    /* padding: 0.8em 1em; */
+    vertical-align: top;
+  }
+  
+  tr:nth-child(even) {
+    background: #d9d9d9;
+  }
+
+
+    .name { width: 6em; }
+    .attend { width: 3em; }
+    .schooltime { width: 4em; }
+    .comment { width: 9em; }
+  
+  .left { text-align: left; }
