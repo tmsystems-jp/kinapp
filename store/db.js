@@ -1,30 +1,44 @@
 import { db } from "~/plugins/firebase";
 
 export const actions = {
-  async getDefault({ getters, commit }) {
+  async getDefault({ commit,rootGetters }) {
     var path = [
       { dbpath: db.collection("principal").doc("Default"), name: "principal" },
-      { dbpath: db.collection("item").doc("Default"), name: "item" }
+      { dbpath: db.collection("principal").doc("Default").collection("staff").doc("Default"), name: "staff" },
+      { dbpath: db.collection("principal").doc("Default").collection("item").doc("Default"), name: "item" , set:'sub'},
+      { dbpath: db.collection("parent").doc("Default"), name: "parent" },
+      { dbpath: db.collection("children").doc("Default"), name: "children" },
+      { dbpath: db.collection("item").doc("Default"), name: "item" , set:'main'}
     ];
-    for (var key in path) {
-      const dbRef = path[key].dbpath;
-      await dbRef
-        .get()
-        .then((res) => {
-          let dData = getters["default"];
-          dData[path[key].name] = res.data();
-          // if(path[key].name in dData){
-          //   dData[path[key].name] = res.data();
-          // }else{
-          //   // dData.push({`path[key].name`:res.data()});
-          // }
-          // // dData[path[key].name] = res.data();
-          console.log("set", dData);
-        })
-        .catch((error) => {
-          console.log("error : " + error);
-        });
-    }
+
+    var setData = {};
+
+    await Promise.all(
+      path.map(
+        async value => {
+          const dbRef = value.dbpath;
+          await dbRef
+            .get()
+            .then((res) => {
+              if("set" in value){
+                if(value.name in setData){
+                  setData[value.name][value.set]=res.data();
+                }else{
+                  setData[value.name]={};
+                  setData[value.name][value.set]=res.data();
+                }
+              }else{
+                setData[value.name]=res.data();
+              }
+            })
+            .catch((error) => {
+              console.log("error : " + error);
+            });
+        }
+      )
+    );
+
+    commit("setDefault",setData,{root:true});
   },
   async getDate({ commit }, payload) {
     const dbRef = payload.db;

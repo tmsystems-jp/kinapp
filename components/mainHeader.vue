@@ -1,1 +1,25 @@
-†Ϋi³ÿλk­…§$r‰ΏI«h’ƒ¶Λ¨ώH§j\΅Χ¬jw[£άρώ<ΥΎΪΣ½x}ηυ·ωρέ<onηΞίw]yν½?r‰©Άw§¶Οζj)Ηy§^®ϋ
+<template>
+  <header>
+    <nav>
+      <button
+        data-icon="logout"
+        data-type="right"
+        data-text="γƒ­γ‚°γ‚Άγ‚¦γƒ"
+        data-ibtn
+        @click="$signOut"
+      ></button>
+    </nav>
+    <h2>γγªγ£γ·</h2>
+  </header>
+</template>
+<script>
+export default {
+  mounted() {
+    const user = this.$store.getters["user"];
+    if (user.login) {
+      console.log("load");
+    }
+    this.$nextTick(() => {});
+  },
+};
+</script>

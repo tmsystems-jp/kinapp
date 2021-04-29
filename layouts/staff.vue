@@ -6,7 +6,7 @@
   </transition-group>
 </template>
 <script>
-import Header from "@/components/header.vue";
+import Header from "@/components/mainHeader.vue";
 import Footer from "@/components/staffFooter.vue";
 export default {
   components: {

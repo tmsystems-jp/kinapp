@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Header from "@/components/header.vue";
+import Header from "@/components/mainHeader.vue";
 export default {
   mounted() {
     this.$nextTick(() => {

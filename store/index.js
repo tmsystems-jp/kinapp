@@ -5,13 +5,13 @@ export const state = () => ({
     type: "",
     login: false
   },
-  userInfo: {},
-  default: {},
-  parent: {},
-  principal: {},
-  children: {},
-  staff: {},
-  item: {}
+  userInfo: null,
+  default: null,
+  parent: null,
+  principal: null,
+  children: null,
+  staff: null,
+  item: null
 });
 
 export const getters = {
@@ -46,6 +46,11 @@ export const mutations = {
     state.user = payload.user;
     state.userInfo = payload.userInfo;
     state.default = payload.default;
+    state.parent = payload.parent;
+    state.principal = payload.principal;
+    state.children = payload.children;
+    state.staff = payload.staff;
+    state.item = payload.item;
   },
   setUser(state, payload) {
     state.user.uid = payload.uid;
@@ -57,6 +62,9 @@ export const mutations = {
   },
   signOut(state) {
     state = new state();
+  },
+  setDefault(state, payload){
+    state.default = payload;
   }
 };
 export const actions = {
@@ -64,6 +72,7 @@ export const actions = {
     if ("storege" in localStorage) {
       const data = JSON.parse(localStorage.getItem("storege")) || [];
       if (data) {
+        console.log(data);
         commit("setStorage", data);
       }
     }
