@@ -2,6 +2,10 @@
 
 > Nuxt starter for CodeSandBox (used for https://template.nuxtjs.org)
 
+#Docker
+
+> docker compose up -d --build
+
 ## Build Setup
 
 ``` bash
