@@ -1,0 +1,14 @@
+version: "3"
+services:
+  kinapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kinapp
+    ports:
+          - "3000:3000"
+    command: npm run dev
+    working_dir: /app
+    volumes:
+        - /app/node_modules
+        - ./:/app:delegated
