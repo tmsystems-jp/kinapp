@@ -63,9 +63,27 @@ export const mutations = {
   signOut(state) {
     state = new state();
   },
+  setUserInfo(state, payload){
+    state.userInfo = payload;
+  },
   setDefault(state, payload){
     state.default = payload;
-  }
+  },
+  setParent(state, payload){
+    state.parent = payload;
+  },
+  setPrincipal(state, payload){
+    state.principal = payload;
+  },
+  setChildren(state, payload){
+    state.children = payload;
+  },
+  setStaff(state, payload){
+    state.staff = payload;
+  },
+  setItem(state, payload){
+    state.item = payload;
+  },
 };
 export const actions = {
   nuxtClientInit({ commit }, context) {

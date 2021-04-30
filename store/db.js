@@ -1,7 +1,7 @@
 import { db } from "~/plugins/firebase";
 
 export const actions = {
-  async getDefault({ commit,rootGetters }) {
+  async pullDefault({ commit,rootGetters }) {
     var path = [
       { dbpath: db.collection("principal").doc("Default"), name: "principal" },
       { dbpath: db.collection("principal").doc("Default").collection("staff").doc("Default"), name: "staff" },
@@ -10,9 +10,7 @@ export const actions = {
       { dbpath: db.collection("children").doc("Default"), name: "children" },
       { dbpath: db.collection("item").doc("Default"), name: "item" , set:'main'}
     ];
-
     var setData = {};
-
     await Promise.all(
       path.map(
         async value => {
@@ -37,18 +35,39 @@ export const actions = {
         }
       )
     );
-
     commit("setDefault",setData,{root:true});
   },
-  async getDate({ commit }, payload) {
+  async pullInfo({ commit }, payload) {
     const dbRef = payload.db;
     await dbRef
       .get()
       .then((res) => {
-        console.log("set", res.data());
+        commit("setUserInfo",res.data(),{root:true});
       })
       .catch((error) => {
         console.log("error : " + error);
       });
-  }
+  },
+  async updateInfo({ commit }, payload) {
+    const dbRef = payload.db;
+    await dbRef
+      .get()
+      .then((res) => {
+        commit("setUserInfo",res.data(),{root:true});
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
+  },
+  async insert({ commit }, payload) {
+    const dbRef = payload.db;
+    await dbRef
+      .get()
+      .then((res) => {
+        commit("setUserInfo",res.data(),{root:true});
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
+  },
 };

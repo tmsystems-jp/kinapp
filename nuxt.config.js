@@ -40,9 +40,9 @@ export default {
    ** Doc: https://nuxtjs.org/docs/2.x/directory-structure/plugins
    */
   plugins: [
-    { src: "~/plugins/main.js", mode: "client", ssr: true },
+    { src: "~/plugins/persistedstate.js", ssr: false },
     { src: "~/plugins/firebase.js", ssr: false },
-    { src: "~/plugins/persistedstate.js", ssr: false }
+    { src: "~/plugins/main.js", mode: "client", ssr: true },
   ],
   loading: "~/components/loading.vue"
 };

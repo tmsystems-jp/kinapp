@@ -86,12 +86,16 @@
 
 <script>
 import { db } from "~/plugins/firebase";
+import Header from "@/components/loginHeader.vue";
 
 export default {
   mounted() {
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
     });
+  },
+  components: {
+    Header,
   },
   head() {
     return {

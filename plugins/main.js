@@ -21,7 +21,7 @@ export default ({ app, context }, inject) => {
     }
     app.router.push("/");
   });
-  app.router.afterEach((to, from) => {
+  app.router.afterEach(() => {
     // const user = app.store.getters.user;
     // if (!user) {
     //   console.log("out");
