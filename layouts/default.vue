@@ -20,7 +20,7 @@ export default {
     });
   },
   computed: {
-    ...mapState("alert", ["message", "isActive"]),
+    ...mapState("alert", ["isActive"]),
   },
   transition: {
     name: "page",

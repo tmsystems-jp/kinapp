@@ -45,7 +45,7 @@ export default {
   methods: {
     test() {
       console.log("click");
-      this.$store.dispatch("alert/openAlert", { message: "" });
+      this.$store.dispatch("alert/openAlert", { title:'警告',message: "データが削除されますがよろしいですか？" });
     },
   },
 };
