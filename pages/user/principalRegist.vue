@@ -2,9 +2,9 @@
   <div>
     <Header />
     <main>
-      <div class="principalRegist">
-        <form @submit.prevent="regist">
-          <div v-if="page.edit" data-icon="email-left">
+      <form @submit.prevent="regist">
+        <div v-if="page.edit">
+          <div data-icon="email-left">
             <input
               type="text"
               name="code"
@@ -12,7 +12,7 @@
               placeholder="幼稚園コード"
             />
           </div>
-          <div v-if="page.edit" data-icon="email-left">
+          <div data-icon="email-left">
             <input
               type="text"
               name="name"
@@ -20,7 +20,7 @@
               placeholder="幼稚園名"
             />
           </div>
-          <div v-if="page.edit" data-icon="email-left">
+          <div data-icon="email-left">
             <input
               type="text"
               name="post"
@@ -28,7 +28,7 @@
               placeholder="郵便番号"
             />
           </div>
-          <div v-if="page.edit" data-icon="email-left">
+          <div data-icon="email-left">
             <input
               type="text"
               name="address"
@@ -36,7 +36,7 @@
               placeholder="住所"
             />
           </div>
-          <div v-if="page.edit" data-icon="email-left">
+          <div data-icon="email-left">
             <input
               type="text"
               name="tel"
@@ -44,7 +44,7 @@
               placeholder="電話番号"
             />
           </div>
-          <div v-if="page.edit" data-icon="email-left">
+          <div data-icon="email-left">
             <input
               type="text"
               name="fax"
@@ -52,7 +52,77 @@
               placeholder="FAX番号"
             />
           </div>
-          <div v-if="page.regist" data-icon="email-left">
+          <button type="submit" @click="update">更新</button>
+        </div>
+        <div v-if="page.code">
+          <dl>
+            <dt>
+              <h3>本人確認</h3>
+              <p>
+                セキュリティ保護の為､Kinappでは本人であることを確認する必要があります。６桁のパスコードが記載されているメッセージが登録されたメールアドレスに送信されていますので確認後､以下にご入力して下さい｡
+              </p>
+            </dt>
+            <dd>
+              <div>
+                <input
+                  name="code0"
+                  v-model="code[0]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+              <div>
+                <input
+                  name="code1"
+                  v-model="code[1]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+              <div>
+                <input
+                  name="code2"
+                  v-model="code[2]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+              <div>
+                <input
+                  name="code3"
+                  v-model="code[3]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+              <div>
+                <input
+                  name="code4"
+                  v-model="code[4]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+              <div>
+                <input
+                  name="code5"
+                  v-model="code[5]"
+                  type="number"
+                  maxlength="1"
+                  placeholder="－"
+                />
+              </div>
+            </dd>
+          </dl>
+          <button type="submit">確認</button>
+        </div>
+        <div v-if="page.regist">
+          <div data-icon="email-left">
             <input
               type="email"
               name="email"
@@ -60,7 +130,7 @@
               placeholder="メール"
             />
           </div>
-          <div v-if="page.regist" data-icon="password-left">
+          <div data-icon="password-left">
             <input
               type="password"
               name="password"
@@ -68,7 +138,7 @@
               placeholder="パスワード ※8桁以上"
             />
           </div>
-          <div v-if="page.regist" data-icon="password-left">
+          <div data-icon="password-left">
             <input
               type="password"
               name="checkPassword"
@@ -76,10 +146,9 @@
               placeholder="確認用パスワード"
             />
           </div>
-          <button v-if="page.regist" type="submit">登録</button>
-          <button v-if="page.edit" type="submit" @click="update">更新</button>
-        </form>
-      </div>
+          <button type="submit">登録</button>
+        </div>
+      </form>
     </main>
   </div>
 </template>
@@ -105,6 +174,7 @@ export default {
   },
   data() {
     return {
+      code: ["", "", "", "", "", ""],
       principalInfo: {
         address: "",
         "admin-cd": "",
@@ -129,12 +199,27 @@ export default {
   },
   methods: {
     async regist() {
+      if (this.page.regist) {
+        this.pageStatus("code");
+      } else if (this.page.code) {
+        this.pageStatus("edit");
+      } else if (this.page.edit) {
+        this.pageStatus("regist");
+      }
+    },
+    pageStatus(type) {
+      this.page.edit = false;
+      this.page.regist = false;
+      this.page.code = false;
+      this.page[type] = true;
+    },
+    async registss() {
       console.log("幼稚園登録");
 
       const authData = {
         email: this.principalInfo["mail-address"],
         password: this.principalInfo["password"],
-        type: "staff",
+        type: "principal",
       };
 
       const staffInfo = {
@@ -182,7 +267,6 @@ export default {
       // 認証処理
       await this.$store.dispatch("sign/signInWithEmail", authData);
     },
-
     async update() {
       const principalDb = db.collection("principal");
       const payload = {

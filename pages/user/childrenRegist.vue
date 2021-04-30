@@ -214,11 +214,5 @@ export default {
   mounted() {
     this.prefecturesList = this.$prefecturesList();
   },
-  // async asyncData(context) {
-  //   await context.store.dispatch("selectDb/fetchPrincipalItemList");
-  //   const item = context.store.getters["selectDb/principalItemList"];
-  //   const ret = { busCourse: item["Default"]["bus-course"] };
-  //   return ret;
-  // },
 };
 </script>
