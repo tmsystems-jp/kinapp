@@ -3,7 +3,6 @@ import firebase from "~/plugins/firebase";
 
 export const actions = {
   async signInWithEmail({ dispatch }, { email, password, type }) {
-    console.log("signInWithEmail");
     try {
       await auth.signInWithEmailAndPassword(email, password);
       dispatch("checkLogin", { type });
@@ -12,7 +11,6 @@ export const actions = {
     }
   },
   async signInWithGoogle({ dispatch }, { type }) {
-    console.log("signInWithGoogle");
     await auth
       .signInWithPopup(GoogleProvider)
       .then(function (result) {

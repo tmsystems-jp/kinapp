@@ -1,10 +1,12 @@
 <template>
-  <transition-group name="page" mode="out-in" appear>
-    <Header key="Header" />
-    <pFooter v-if="parentsType" key="pFooter" />
-    <sFooter v-if="staffType" key="sFooter" />
-    <Nuxt key="Nuxt" />
-  </transition-group>
+  <div class="main-container">
+    <transition-group name="page" mode="out-in" appear>
+      <Header key="Header" />
+      <pFooter v-if="parentsType" key="pFooter" />
+      <sFooter v-if="staffType" key="sFooter" />
+      <Nuxt key="Nuxt" />
+    </transition-group>
+  </div>
 </template>
 <script>
 import Header from "@/components/mainHeader.vue";

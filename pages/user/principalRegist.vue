@@ -200,6 +200,19 @@ export default {
   methods: {
     async regist() {
       if (this.page.regist) {
+        if (
+          this.principalInfo["password"] !== this.principalInfo["checkPassword"]
+        ) {
+          return;
+        }
+        const authData = {
+          email: this.principalInfo["mail-address"],
+          password: this.principalInfo["password"],
+          type: "principal",
+        };
+        // Authentication 登録
+        await this.$store.dispatch("sign/setRegist", authData);
+
         this.pageStatus("code");
       } else if (this.page.code) {
         this.pageStatus("edit");
@@ -214,14 +227,6 @@ export default {
       this.page[type] = true;
     },
     async registss() {
-      console.log("幼稚園登録");
-
-      const authData = {
-        email: this.principalInfo["mail-address"],
-        password: this.principalInfo["password"],
-        type: "principal",
-      };
-
       const staffInfo = {
         authority: "1",
         "home-room": { item: "", name: "", value: 0 },
@@ -234,9 +239,6 @@ export default {
       };
 
       const principalDb = db.collection("principal");
-
-      // Authentication 登録
-      await this.$store.dispatch("sign/emailRegist", authData);
 
       // 幼稚園情報登録(datasture)
       this.principalInfo["principal-id"] = "A001";
