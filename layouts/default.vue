@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" :class="{pc:$isPC}">
     <transition-group name="page" mode="out-in" appear>
       <Nuxt key="Nuxt" />
       <!-- <Modal v-if="$store.getters['alert/isActive']"></Modal> -->

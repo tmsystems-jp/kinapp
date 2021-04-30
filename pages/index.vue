@@ -30,9 +30,6 @@ export default {
     return {
       title: "トップページ Kinapp",
       link: [{ rel: "stylesheet", href: "/css/index.css" }],
-      script: [
-        { type: "text/javascript", src: "/js/index.js", charset: "utf-8" },
-      ],
     };
   },
   mounted() {
