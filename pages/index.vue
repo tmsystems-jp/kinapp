@@ -16,8 +16,7 @@
           </button>
         </li>
         <li>
-          <!-- <button @click="$navigate('user/principalRegist')">初めての方</button> -->
-          <button @click="test">初めての方</button>
+          <button @click="$navigate('user/principalRegist')">初めての方</button>
         </li>
       </ul>
     </nav>
@@ -41,12 +40,6 @@ export default {
         localStorage.removeItem("storege");
       }
     });
-  },
-  methods: {
-    test() {
-      console.log("click");
-      this.$store.dispatch("alert/openAlert", { title:'警告',message: "データが削除されますがよろしいですか？" });
-    },
   },
 };
 </script>

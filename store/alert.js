@@ -2,6 +2,7 @@ export const state = () => ({
   title: "",
   message: "",
   button: [],
+  btnType: "",
   isActive: false,
 });
 
@@ -21,6 +22,14 @@ export const mutations = {
     state.title = payload.title;
     state.message = payload.message;
     state.button = payload.button;
+    var btnTypeSet = {
+      one: false,
+      two: false,
+      list: false,
+      "list-ec": false,
+    };
+    btnTypeSet[payload.btnType] = true;
+    state.btnType = btnTypeSet;
   },
   active(state) {
     state.isActive = true;

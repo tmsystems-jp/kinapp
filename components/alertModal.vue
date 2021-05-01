@@ -1,17 +1,30 @@
 <template>
-  <transition name="modal" appear>
-    <div class="modal">
+  <transition name="modal" mode="out-in" appear>
+    <div class="modalbox">
       <div class="alert">
         <dl>
           <dt>
-            <h3>{{this.title}}</h3>
-            <span><p>{{this.message}}</p></span>
+            <h3>{{ this.title }}</h3>
+            <span
+              ><p>{{ this.message }}</p></span
+            >
           </dt>
-          <dd :class="{one:btnType['1'],two:btnType['2'],list:btnType['3']}">
-            <button>A</button>
-            <button>B</button>
-            <button>C</button>
-            <button data-only>D</button>
+          <dd
+            :class="{
+              one: btnType['one'],
+              two: btnType['two'],
+              list: btnType['list'],
+              'list-ec': btnType['list-ec'],
+            }"
+          >
+            <button
+              v-for="(data, index) in button"
+              :key="index"
+              :style="styleSet(data.style)"
+              @click="eventClick(data.key)"
+            >
+              {{ data.view }}
+            </button>
           </dd>
         </dl>
       </div>
@@ -23,27 +36,31 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   methods: {
-    close(){
+    close() {
       this.$store.dispatch("alert/closeAlert");
-    }
+    },
+    eventClick(key) {
+      this.$emit("event", key);
+    },
+    styleSet(data) {
+      var style = "";
+      if (data.color != "") {
+        style += "color:" + data.color + ";";
+      }
+      if (data.bold) {
+        style += "font-weight:bold;";
+      }
+      return style;
+    },
   },
   computed: {
-    ...mapState("alert", ["title","message","button"]),
-  },
-  data(){
-    return {
-      btnType:{
-        '1':false,
-        '2':false,
-        '3':true,
-      }
-    }
+    ...mapState("alert", ["title", "message", "button", "btnType"]),
   },
 };
 </script>
 
 <style scoped>
-.mask{
+.mask {
   position: absolute;
   top: 0;
   left: 0;
@@ -56,21 +73,21 @@ export default {
   width: auto;
   height: auto;
   overflow: hidden;
-  z-index:100;
+  z-index: 100;
 }
 .alert dl {
-  width: auto;
-  max-width: 70vw;
+  width: 340px;
+  max-width: 80vw;
   height: auto;
   display: block;
 }
 .alert dt {
   width: auto;
   height: auto;
-  padding: 0.5em;
+  padding: 0.5em 0.8em;
   background-color: rgba(255, 255, 255, 0.7);
-  border-top-left-radius: 2vmax;
-  border-top-right-radius: 2vmax;
+  border-top-left-radius: 1.2vmin;
+  border-top-right-radius: 1.2vmin;
   text-align: center;
   backdrop-filter: blur(5px);
   display: block;
@@ -78,22 +95,23 @@ export default {
 .alert dt h3 {
   width: auto;
   height: auto;
-  text-align: left;
+  text-align: center;
   display: inline-block;
-  font-size: 0.9em;
-  padding-bottom: 0.3em;
+  font-size: 0.85em;
+  padding: 0.3em;
 }
 .alert dt span {
   width: auto;
   height: auto;
+  padding: 0.2em 0;
   display: block;
 }
 .alert dt p {
   width: auto;
   height: auto;
-  text-align: left;
+  text-align: center;
   display: inline-block;
-  font-size: 0.6em;
+  font-size: 0.65em;
 }
 .alert dd {
   width: 100%;
@@ -101,26 +119,42 @@ export default {
   display: block;
   z-index: 100;
 }
-.alert dd button{
+.alert dd button {
   width: 100%;
   height: auto;
-  line-height: 2;
-  border-top: solid 1px rgba(0,0,0,0.5);
+  font-size: 0.8em;
+  line-height: 2.5;
+  white-space: nowrap;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
+  color: rgba(0, 122, 255, 1);
+  box-sizing: border-box;
   display: block;
 }
-.alert dd button[data-only]{
-  border:none;
+.alert dd.two button {
+  width: 50%;
+  display: inline-block;
+}
+.alert dd.two button:last-of-type {
+  border-left: solid 1px rgba(0, 0, 0, 0.2);
+  border-bottom-right-radius: 1.2vmin;
+}
+.alert dd.two button:first-of-type {
+  border-bottom-left-radius: 1.2vmin;
+}
+.alert dd.one button:last-of-type,
+.alert dd.list button:nth-last-of-type(1),
+.alert dd.list-ec button:nth-last-of-type(2) {
+  border-bottom-left-radius: 1.2vmin;
+  border-bottom-right-radius: 1.2vmin;
+}
+.alert dd.list-ec button:nth-last-of-type(1) {
+  border: none;
   margin-top: 0.3em;
-  border-radius: 2vmax;
+  border-radius: 1.2vmin;
 }
-.alert dd.one button:last-of-type,.alert dd.list button:nth-last-of-type(2){
-  border-bottom-left-radius: 2vmax;
-  border-bottom-right-radius: 2vmax;
-}
-
-.modal {
+.modalbox {
   top: 0;
   left: 0;
   width: 100%;
@@ -136,12 +170,35 @@ export default {
 .modal-leave-to {
   opacity: 0;
 }
-.modal-enter-active,
+.modal-enter .alert {
+  opacity: 0;
+  transform: scale(1.2, 1.2);
+  filter: blur(6px);
+}
+.modal-leave-to .alert {
+  opacity: 0;
+  filter: blur(6px);
+}
+.modal-enter-active {
+  transition: all 0.3s ease;
+}
 .modal-leave-active {
-  transition: all 0.1s ease-in-out 0s;
+  transition: all 0.2s ease;
+}
+.modal-enter-active .alert {
+  transition: all 0.15s ease-out 0.15s;
+}
+.modal-leave-active .alert {
+  transition: all 0.15s ease-in 0s;
 }
 .modal-enter-to,
 .modal-leave {
   opacity: 1;
+}
+.modal-enter-to .alert,
+.modal-leave .alert {
+  opacity: 1;
+  transform: scale(1, 1);
+  filter: blur(0);
 }
 </style>
