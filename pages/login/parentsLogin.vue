@@ -20,6 +20,7 @@
         </div>
         <button type="submit">認証</button>
       </form>
+      <span>または</span>
       <button type="button" @click="loginGoogle">Googleでログイン</button>
     </div>
   </main>
