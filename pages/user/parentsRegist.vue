@@ -1,81 +1,88 @@
 <template>
-  <main>
-    <div class="userRegist">
-      <form @submit.prevent="parentsRegist">
-        <div data-icon="password-left">
-          <input
-            type="text"
-            name="nameFirst"
-            v-model="parentInfo['name-first']"
-            placeholder="姓"
-          />
-          <input
-            type="text"
-            name="nameLast"
-            v-model="parentInfo['name-last']"
-            placeholder="名"
-          />
-        </div>
-        <div data-icon="password-left">
-          <input
-            type="text"
-            name="kanaFirst"
-            v-model="parentInfo['kana-first']"
-            placeholder="姓カナ"
-          />
-          <input
-            type="text"
-            name="kanaLast"
-            v-model="parentInfo['kana-last']"
-            placeholder="名カナ"
-          />
-        </div>
-        <div data-icon="email-left">
-          <input
-            type="email"
-            name="email"
-            v-model="parentInfo['mail-address']"
-            placeholder="メール"
-          />
-        </div>
-        <div data-icon="password-left">
-          <input
-            type="password"
-            name="password"
-            v-model="parentInfo['password']"
-            placeholder="パスワード ※8桁以上"
-          />
-        </div>
-        <div data-icon="password-left">
-          <input
-            type="password"
-            name="checkPassword"
-            v-model="parentInfo['checkPassword']"
-            placeholder="確認用パスワード"
-          />
-        </div>
-        <div data-icon="password-left">
-          <input
-            type="text"
-            name="childNo"
-            v-model="parentInfo['childNo']"
-            placeholder="園児番号"
-          />
-        </div>
-        <button type="submit">登録</button>
-      </form>
-    </div>
-  </main>
+  <div>
+    <Header />
+    <main>
+      <div class="userRegist">
+        <form @submit.prevent="parentsRegist">
+          <div data-icon="password-left">
+            <input
+              type="text"
+              name="nameFirst"
+              v-model="parentInfo['name-first']"
+              placeholder="姓"
+            />
+            <input
+              type="text"
+              name="nameLast"
+              v-model="parentInfo['name-last']"
+              placeholder="名"
+            />
+          </div>
+          <div data-icon="password-left">
+            <input
+              type="text"
+              name="kanaFirst"
+              v-model="parentInfo['kana-first']"
+              placeholder="姓カナ"
+            />
+            <input
+              type="text"
+              name="kanaLast"
+              v-model="parentInfo['kana-last']"
+              placeholder="名カナ"
+            />
+          </div>
+          <div data-icon="email-left">
+            <input
+              type="email"
+              name="email"
+              v-model="parentInfo['mail-address']"
+              placeholder="メール"
+            />
+          </div>
+          <div data-icon="password-left">
+            <input
+              type="password"
+              name="password"
+              v-model="parentInfo['password']"
+              placeholder="パスワード ※8桁以上"
+            />
+          </div>
+          <div data-icon="password-left">
+            <input
+              type="password"
+              name="checkPassword"
+              v-model="parentInfo['checkPassword']"
+              placeholder="確認用パスワード"
+            />
+          </div>
+          <div data-icon="password-left">
+            <input
+              type="text"
+              name="childNo"
+              v-model="parentInfo['childNo']"
+              placeholder="園児番号"
+            />
+          </div>
+          <button type="submit">登録</button>
+        </form>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
 import { db } from "~/plugins/firebase";
+import Header from "@/components/loginHeader.vue";
 
 export default {
   mounted() {
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
     });
+  },
+  components: {
+    Header,
   },
   head() {
     return {

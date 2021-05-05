@@ -15,9 +15,6 @@
             <p>保育士</p>
           </button>
         </li>
-        <li>
-          <button @click="$navigate('user/principalRegist')">初めての方</button>
-        </li>
       </ul>
     </nav>
   </main>

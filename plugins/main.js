@@ -1,6 +1,6 @@
 export default ({ app, context }, inject) => {
   inject("navigate", (page) => app.router.push(page));
-  inject("historyBack", () => app.router.push("/"));
+  inject("historyBack", () => app.router.go(-1));
   inject("initialSetting", (el) => {
     initialSetting(el);
     // const signData = app.store.getters["sign/user"];

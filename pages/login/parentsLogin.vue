@@ -1,47 +1,32 @@
 <template>
-  <div>
-    <Header />
-    <main>
-      <div class="login">
-        <form @submit.prevent="loginMail">
-          <div data-icon="email-left">
-            <input
-              v-model="email"
-              type="email"
-              name="email"
-              placeholder="メール"
-            />
-          </div>
-          <div data-icon="password-left">
-            <input
-              type="password"
-              name="password"
-              v-model="password"
-              placeholder="パスワード"
-            />
-          </div>
-          <button type="submit">認証</button>
-        </form>
-        <button type="button" @click="loginGoogle">Googleでログイン</button>
-        <nuxt-link to="/user/parentsRegist" class="link">
-          はじめてのかたはこちら
-        </nuxt-link>
-      </div>
-    </main>
-  </div>
+  <main>
+    <div class="login">
+      <form @submit.prevent="loginMail">
+        <div data-icon="email-left">
+          <input
+            v-model="email"
+            type="email"
+            name="email"
+            placeholder="メール"
+          />
+        </div>
+        <div data-icon="password-left">
+          <input
+            type="password"
+            name="password"
+            v-model="password"
+            placeholder="パスワード"
+          />
+        </div>
+        <button type="submit">認証</button>
+      </form>
+      <button type="button" @click="loginGoogle">Googleでログイン</button>
+    </div>
+  </main>
 </template>
-
 <script>
-import Header from "@/components/loginHeader.vue";
 export default {
-  mounted() {
-    this.$nextTick(() => {
-      this.$initialSetting(this.$el);
-    });
-  },
-  components: {
-    Header,
-  },
+  layout: "login",
   head() {
     return {
       title: "保護者ログイン Kinapp",

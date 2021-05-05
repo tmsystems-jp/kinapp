@@ -168,7 +168,7 @@ export default {
   },
   head() {
     return {
-      title: "幼稚園登録 Kinapp",
+      title: "園登録 Kinapp",
       link: [{ rel: "stylesheet", href: "/css/login.css" }],
     };
   },
