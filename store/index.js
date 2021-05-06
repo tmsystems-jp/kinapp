@@ -63,34 +63,34 @@ export const mutations = {
   signOut(state) {
     state = new state();
   },
-  setUserInfo(state, payload){
+  setUserInfo(state, payload) {
     state.userInfo = payload;
   },
-  setDefault(state, payload){
+  setDefault(state, payload) {
     state.default = payload;
   },
-  setParent(state, payload){
+  setParent(state, payload) {
     state.parent = payload;
   },
-  setPrincipal(state, payload){
+  setPrincipal(state, payload) {
     state.principal = payload;
   },
-  setChildren(state, payload){
+  setChildren(state, payload) {
     state.children = payload;
   },
-  setStaff(state, payload){
+  setStaff(state, payload) {
     state.staff = payload;
   },
-  setItem(state, payload){
+  setItem(state, payload) {
     state.item = payload;
-  },
+  }
 };
 export const actions = {
   nuxtClientInit({ commit }, context) {
     if ("storege" in localStorage) {
       const data = JSON.parse(localStorage.getItem("storege")) || [];
       if (data) {
-        console.log(data);
+        console.log("storege", localStorage);
         commit("setStorage", data);
       }
     }

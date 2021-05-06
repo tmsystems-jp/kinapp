@@ -1,4 +1,4 @@
-export default ({ app, context }, inject) => {
+export default ({ app, store, context }, inject) => {
   inject("navigate", (page) => app.router.push(page));
   inject("historyBack", () => app.router.go(-1));
   inject("initialSetting", (el) => {
@@ -12,7 +12,7 @@ export default ({ app, context }, inject) => {
     // }
   });
   inject("signOut", () => {
-    app.store.dispatch("sign/logout");
+    store.dispatch("sign/logout");
     if ("vuex" in localStorage) {
       localStorage.removeItem("vuex");
     }
@@ -21,17 +21,11 @@ export default ({ app, context }, inject) => {
     }
     app.router.push("/");
   });
-  app.router.afterEach(() => {
-    // const user = app.store.getters.user;
-    // if (!user) {
-    //   console.log("out");
-    // } else {
-    //   console.log(user);
-    //   if (!user.login) {
-    //   } else {
-    //     console.log(user.login);
-    //   }
-    // }
+  app.router.afterEach(async () => {
+    if (!store.getters["default"]) {
+      await store.dispatch("db/pullDefault");
+      console.log("set", store.getters["default"]);
+    }
   });
   inject("selectChange", (target, data) => selectChange(target, data));
   inject("prefecturesList", () => prefecturesList());
