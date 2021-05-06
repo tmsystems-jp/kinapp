@@ -27,8 +27,6 @@ button[type="button"] {
   color: rgba(255, 255, 255, 0.8);
   margin-top: 1.3em;
   display: inline-block;
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
 }
 dl,
 dt,
@@ -75,7 +73,7 @@ dd div input {
   cursor: pointer;
   z-index: 50;
 }
-main span{
+main span {
   width: 100%;
   height: 2em;
   font-size: 0.7em;
@@ -88,9 +86,9 @@ main span{
 main span:before,
 main span:after {
   position: relative;
-  content: '';
+  content: "";
   width: 100%;
   height: 50%;
-  border-bottom: solid 1px rgba(0,0,0,0.2);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
   display: inline-flex;
 }
