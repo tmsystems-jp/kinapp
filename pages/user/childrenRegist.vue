@@ -205,7 +205,9 @@
 <script>
 export default {
   layout: "main",
-  components: {},
+  extends: {
+    props: ["statusType"],
+  },
   head() {
     return {
       title: "園児情報 Kinapp",

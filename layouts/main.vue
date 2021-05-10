@@ -1,10 +1,14 @@
 <template>
   <div class="main-container">
     <transition-group name="page" mode="out-in" appear>
-      <Header key="Header" />
-      <pFooter v-if="parentsType" key="pFooter" />
-      <sFooter v-if="staffType" key="sFooter" />
-      <Nuxt key="Nuxt" />
+      <Header
+        key="Header"
+        :statusType="statusType"
+        @status-change="statusChange($event, data)"
+      />
+      <pFooter v-if="parentsType" key="pFooter" :statusType="statusType" />
+      <sFooter v-if="staffType" key="sFooter" :statusType="statusType" />
+      <Nuxt key="Nuxt" :statusType="statusType" />
     </transition-group>
     <Modal v-if="this.isActive" key="Modal" @event="alertEvent"></Modal>
   </div>
@@ -13,7 +17,7 @@
 import Header from "@/components/mainHeader.vue";
 import pFooter from "@/components/parentsFooter.vue";
 import sFooter from "@/components/staffFooter.vue";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 import Modal from "@/components/alertModal.vue";
 export default {
   components: {
@@ -25,13 +29,20 @@ export default {
   data() {
     return {
       staffType: true,
-      parentsType: true,
+      parentsType: false,
+      statusType: {
+        edit: false,
+      },
     };
   },
   methods: {
-    alertEvent(data){
-      this.$nuxt.$emit('alertModelEvent',data);
-    }
+    alertEvent(data) {
+      var evName = "alertModelEvent";
+      this.$nuxt.$emit(evName, data);
+    },
+    statusChange(data) {
+      this.statusType = data;
+    },
   },
   computed: {
     ...mapState("alert", ["isActive"]),

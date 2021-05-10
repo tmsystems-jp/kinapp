@@ -21,12 +21,7 @@ export default ({ app, store, context }, inject) => {
     }
     app.router.push("/");
   });
-  app.router.afterEach(async () => {
-    if (!store.getters["default"]) {
-      await store.dispatch("db/pullDefault");
-      console.log("set", store.getters["default"]);
-    }
-  });
+  app.router.afterEach(async () => {});
   inject("selectChange", (target, data) => selectChange(target, data));
   inject("prefecturesList", () => prefecturesList());
 };
@@ -84,6 +79,8 @@ function iconSVG(icon) {
       '<svg viewBox="0 0 64 64"><path id="arrow-left" d="M40 21a2.99 2.99 0 0 1-.879 2.121l-8.636 8.89 8.636 8.868a3 3 0 0 1-4.242 4.242L22 32.011l12.879-13.132A3 3 0 0 1 40 21z"></path><path id="arrow-right" d="M22 21a2.99 2.99 0 0 0 .879 2.121l8.636 8.89-8.636 8.868a3 3 0 0 0 4.242 4.242L40 32.011 27.121 18.879A3 3 0 0 0 22 21z"></path></svg>',
     logout:
       '<svg viewBox="0 0 64 64"><path d="M58.1 5.9a20 20 0 0 0-32.5 22L18 35.4V38h-6v6H6v6H3.2L0 53.2V64h10.8l25.5-25.6A20.1 20.1 0 0 0 44 40 20 20 0 0 0 58.1 5.9zm-5.9 14.3a6 6 0 1 1 0-8.5 6 6 0 0 1 0 8.5z"></path></svg>',
+    edit:
+      '<svg viewBox="0 0 64 64"><path d="M6.732 41.212l30.265-30.265L52.998 26.95 22.734 57.213z"></path><path d="M61.6 18.4c3.7-4.1 3.1-10-1.4-14.6A12 12 0 0 0 51.8 0a9.3 9.3 0 0 0-6.2 2.4z"></path><path d="M4.6 44.7L0 64l19.3-4.5L4.6 44.7zM39.78 8.229l2.97-2.97 16 16.001-2.97 2.97z"></path></svg>',
     none: ""
   };
   return svgdata[name[0]];

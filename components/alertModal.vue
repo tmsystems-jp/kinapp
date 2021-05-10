@@ -33,7 +33,7 @@
   </transition>
 </template>
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   methods: {
     close() {
@@ -44,7 +44,7 @@ export default {
     },
     styleSet(data) {
       var style = "";
-      if (data.color != "") {
+      if (data.color !== "") {
         style += "color:" + data.color + ";";
       }
       if (data.bold) {

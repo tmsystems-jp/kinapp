@@ -19,3 +19,10 @@
     </nav>
   </footer>
 </template>
+<script>
+export default {
+  extends: {
+    props: ["statusType"],
+  },
+};
+</script>
