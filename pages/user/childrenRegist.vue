@@ -42,7 +42,9 @@
                 </div>
                 <div><p>キナップ</p></div>
                 <div><p>4歳</p></div>
-                <div><p>A型</p></div>
+                <div>
+                  <p></p>
+                </div>
               </div>
             </dd>
           </dl>
@@ -227,7 +229,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("db/pullDefault");
+    console.log(
+      this.$root.$children[this.$root.$children.length - 1].statusType
+    );
   },
 };
 </script>

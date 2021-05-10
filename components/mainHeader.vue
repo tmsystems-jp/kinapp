@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header v-bind:data-status="status">
     <nav>
       <button
         data-icon="edit"
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       title: "きなっぷ",
+      status: "off",
     };
   },
   mounted() {
@@ -27,13 +28,24 @@ export default {
     if (user.login) {
       console.log("load");
     }
+    if (this.statusType.edit) {
+      this.status = "edit";
+    } else {
+      this.status = "off";
+    }
   },
   methods: {
     edit() {
       this.statusType.edit = true;
       this.$emit("status-change", this.statusType);
     },
-    statusChange() {},
+    statusChange() {
+      if (this.statusType.edit) {
+        this.status = "edit";
+      } else {
+        this.status = "off";
+      }
+    },
   },
 };
 </script>

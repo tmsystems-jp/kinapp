@@ -12,12 +12,14 @@
         v-if="parentsType"
         key="pFooter"
         :statusType="statusType"
+        @status-change="statusChange"
       />
       <sFooter
         ref="sFooter"
         v-if="staffType"
         key="sFooter"
         :statusType="statusType"
+        @status-change="statusChange"
       />
       <Nuxt ref="Nuxt" key="Nuxt" :statusType="statusType" />
     </transition-group>

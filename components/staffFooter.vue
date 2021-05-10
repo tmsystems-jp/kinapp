@@ -7,9 +7,14 @@
       <button data-icon="childrens" data-text="園児情報" data-ibtn></button>
       <button data-icon="notice" data-text="お知らせ" data-ibtn></button>
     </nav>
-    <div>
-      <button>キャンセル</button>
-      <button>保存</button>
+    <div class="edit">
+      <button
+        data-icon="cancel"
+        data-text="キャンセル"
+        data-ibtn
+        @click="cancel"
+      ></button>
+      <button data-icon="save" data-text="保存" data-ibtn></button>
     </div>
   </footer>
 </template>
@@ -31,6 +36,11 @@ export default {
     }
   },
   methods: {
+    cancel() {
+      this.statusType.edit = false;
+      this.$emit("status-change", this.statusType);
+    },
+    save() {},
     statusChange() {
       if (this.statusType.edit) {
         this.status = "edit";
