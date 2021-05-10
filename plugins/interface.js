@@ -1,6 +1,17 @@
 export default ({ app, store, context }, inject) => {
   inject("ifchildren", () => children());
+  inject("ifdb", () => db());
 };
+function db() {
+  var data = {
+    "1": "principal",
+    "2": "children",
+    "3": "parent",
+    "4": "staff",
+    "5": "item"
+  };
+  return data;
+}
 function children() {
   var data = {
     "first-name": "",

@@ -2,13 +2,24 @@
   <div class="main-container">
     <transition-group name="page" mode="out-in" appear>
       <Header
+        ref="Header"
         key="Header"
         :statusType="statusType"
-        @status-change="statusChange($event, data)"
+        @status-change="statusChange"
       />
-      <pFooter v-if="parentsType" key="pFooter" :statusType="statusType" />
-      <sFooter v-if="staffType" key="sFooter" :statusType="statusType" />
-      <Nuxt key="Nuxt" :statusType="statusType" />
+      <pFooter
+        ref="pFooter"
+        v-if="parentsType"
+        key="pFooter"
+        :statusType="statusType"
+      />
+      <sFooter
+        ref="sFooter"
+        v-if="staffType"
+        key="sFooter"
+        :statusType="statusType"
+      />
+      <Nuxt ref="Nuxt" key="Nuxt" :statusType="statusType" />
     </transition-group>
     <Modal v-if="this.isActive" key="Modal" @event="alertEvent"></Modal>
   </div>
@@ -42,6 +53,14 @@ export default {
     },
     statusChange(data) {
       this.statusType = data;
+      this.$refs.Header.statusChange();
+      if (this.staffType) {
+        this.$refs.sFooter.statusChange();
+      }
+      if (this.parentsType) {
+        this.$refs.pFooter.statusChange();
+      }
+      this.$refs.Nuxt.$children[0].statusChange();
     },
   },
   computed: {

@@ -14,6 +14,9 @@
 </template>
 <script>
 export default {
+  extends: {
+    props: ["statusType"],
+  },
   data() {
     return {
       title: "きなっぷ",
@@ -29,11 +32,8 @@ export default {
     edit() {
       this.statusType.edit = true;
       this.$emit("status-change", this.statusType);
-      console.log("edit");
     },
-  },
-  extends: {
-    props: ["statusType"],
+    statusChange() {},
   },
 };
 </script>

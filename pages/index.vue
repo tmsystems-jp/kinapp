@@ -37,6 +37,7 @@ export default {
         localStorage.removeItem("storege");
       }
     });
+    this.$store.dispatch("db/pullDefault");
   },
 };
 </script>

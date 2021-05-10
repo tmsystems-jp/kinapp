@@ -221,6 +221,13 @@ export default {
       busCourse: [],
     };
   },
-  mounted() {},
+  methods: {
+    statusChange() {
+      console.log("set");
+    },
+  },
+  mounted() {
+    this.$store.dispatch("db/pullDefault");
+  },
 };
 </script>
