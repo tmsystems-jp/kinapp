@@ -59,16 +59,62 @@
           <div class="content_class">
             <div>
               <fieldset>
+                <legend>登園方法</legend>
+                <label
+                  ><input
+                    type="radio"
+                    name="going-school"
+                    value="parents"
+                  />保護者送迎</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="going-school"
+                    value="bus"
+                    checked="checked"
+                  />バス利用</label
+                >
+              </fieldset>
+              <fieldset id="bus">
+                <legend>バスコース</legend>
+                <select
+                  name="bus-course"
+                  v-model="input.busCourse"
+                  ref="busCourse"
+                  @change="$selectChange($refs.busCourse, input.busCourse)"
+                  data-view="off"
+                >
+                  <option value="" selected>バスコース</option>
+                  <option
+                    v-for="data in busCourse"
+                    :key="data.value"
+                    :value="data.value"
+                  >
+                    {{ data.name }}
+                  </option>
+                </select>
+              </fieldset>
+            </div>
+            <div>
+              <fieldset>
                 <legend>郵便番号</legend>
-                <input type="number" name="postno" placeholder="郵便番号" />
+                <input
+                  type="number"
+                  name="postno"
+                  v-model="input['postno']"
+                  placeholder="郵便番号"
+                />
               </fieldset>
               <fieldset>
                 <legend>都道府県</legend>
                 <select
                   name="prefectures"
-                  v-model="input.prefectures"
+                  v-model="input['prefectures']"
                   ref="prefectures"
-                  @change="$selectChange($refs.prefectures, input.prefectures)"
+                  @change="
+                    $selectChange($refs.prefectures, input['prefectures'])
+                  "
                   data-view="off"
                 >
                   <option value="" selected>都道府県</option>
@@ -94,51 +140,16 @@
                 <input type="text" name="address3" placeholder="建物名" />
               </fieldset>
               <fieldset>
-                <legend>緊急連絡先１</legend>
-                <input type="tel" name="telNo1" placeholder="電話番号" />
+                <legend>電話番号</legend>
+                <input type="tel" name="telephone" placeholder="電話番号" />
               </fieldset>
               <fieldset>
-                <legend>緊急連絡先２</legend>
-                <input type="tel" name="telNo2" placeholder="電話番号" />
-              </fieldset>
-            </div>
-            <div>
-              <fieldset>
-                <legend>登園方法</legend>
-                <label
-                  ><input
-                    type="radio"
-                    name="going-school"
-                    value="boy"
-                    checked="checked"
-                  />バス利用</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="going-school"
-                    value="girl"
-                  />保護者送迎</label
-                >
-              </fieldset>
-              <fieldset id="bus">
-                <legend>バスコース</legend>
-                <select
-                  name="bus-course"
-                  v-model="input.busCourse"
-                  ref="busCourse"
-                  @change="$selectChange($refs.busCourse, input.busCourse)"
-                  data-view="off"
-                >
-                  <option value="" selected>バスコース</option>
-                  <option
-                    v-for="data in busCourse"
-                    :key="data.value"
-                    :value="data.value"
-                  >
-                    {{ data.name }}
-                  </option>
-                </select>
+                <legend>緊急連絡先</legend>
+                <input
+                  type="tel"
+                  name="emergency contact"
+                  placeholder="緊急連絡先"
+                />
               </fieldset>
             </div>
           </div>
@@ -203,16 +214,11 @@ export default {
   },
   data() {
     return {
-      input: {
-        prefectures: "",
-        busCourse: "",
-      },
-      prefecturesList: [],
+      input: this.$ifchildren(),
+      prefecturesList: this.$prefecturesList(),
       busCourse: [],
     };
   },
-  mounted() {
-    this.prefecturesList = this.$prefecturesList();
-  },
+  mounted() {},
 };
 </script>

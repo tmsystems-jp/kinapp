@@ -46,7 +46,8 @@ export default {
     { src: "~/plugins/persistedstate.js", ssr: false },
     { src: "~/plugins/firebase.js", ssr: false },
     { src: "~/plugins/user-agent.js", ssr: false },
-    { src: "~/plugins/main.js", ssr: false }
+    { src: "~/plugins/main.js", ssr: true },
+    { src: "~/plugins/interface.js", ssr: true }
   ],
   loading: "~/components/loading.vue"
 };
