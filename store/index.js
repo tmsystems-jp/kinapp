@@ -9,6 +9,7 @@ export const actions = {
     }
   }
 };
+
 export const state = () => ({
   user: {
     uid: "",
