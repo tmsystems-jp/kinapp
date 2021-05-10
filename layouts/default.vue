@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container" :class="{ pc: $isPC }">
+  <div class="main-container">
     <transition-group name="page" mode="out-in" appear>
       <Nuxt ref="nuxtArea" key="Nuxt" />
     </transition-group>
