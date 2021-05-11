@@ -16,6 +16,8 @@ function children() {
   var data = {
     "first-name": "",
     "last-name": "",
+    "first-kana": "",
+    "last-kana": "",
     nickname: "",
     birthday: "",
     gender: "",

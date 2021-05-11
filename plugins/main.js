@@ -24,7 +24,16 @@ export default ({ app, store, context }, inject) => {
   app.router.afterEach(async () => {});
   inject("selectChange", (target, data) => selectChange(target, data));
   inject("prefecturesList", () => prefecturesList());
+  inject("nowDate", () => nowDate());
 };
+function nowDate() {
+  var data = [];
+  var nData = new Date();
+  data.push(nData.getFullYear());
+  data.push(("00" + (nData.getMonth() + 1)).slice(-2));
+  data.push(("00" + nData.getDate()).slice(-2));
+  return data.join("-");
+}
 function selectChange(target, data) {
   var set = "off";
   if (data !== "") {

@@ -11,38 +11,76 @@
               <div data-input>
                 <fieldset data-half>
                   <legend>園児名</legend>
-                  <input type="text" name="first-name" />
+                  <input
+                    type="text"
+                    name="first-name"
+                    v-model="input['first-name']"
+                  />
                 </fieldset>
                 <fieldset data-half>
-                  <input type="text" name="last-name" />
+                  <input
+                    type="text"
+                    name="last-name"
+                    v-model="input['first-name']"
+                  />
                 </fieldset>
                 <fieldset data-half>
                   <legend>園児名(カナ)</legend>
-                  <input type="text" name="first-kana" />
+                  <input
+                    type="text"
+                    name="first-kana"
+                    v-model="input['first-kana']"
+                  />
                 </fieldset>
                 <fieldset data-half>
-                  <input type="text" name="last-kana" />
+                  <input
+                    type="text"
+                    name="last-kana"
+                    v-model="input['first-kana']"
+                  />
                 </fieldset>
                 <fieldset>
                   <legend>愛称</legend>
-                  <input type="text" name="nickName" placeholder="愛称" />
+                  <input
+                    type="text"
+                    name="nickname"
+                    v-model="input['nickname']"
+                    placeholder="愛称"
+                  />
                 </fieldset>
                 <fieldset>
                   <legend>誕生日</legend>
-                  <input type="date" name="birthday" />
+                  <input
+                    type="date"
+                    name="birthday"
+                    v-model="input['birthday']"
+                  />
                 </fieldset>
                 <fieldset>
                   <legend>性別</legend>
                   <label
                     ><input
                       type="radio"
-                      name="sex"
+                      name="gender"
                       value="boy"
-                      checked="checked"
+                      v-model="input['gender']"
                     />男の子</label
                   >
                   <label
-                    ><input type="radio" name="sex" value="girl" />女の子</label
+                    ><input
+                      type="radio"
+                      name="gender"
+                      v-model="input['gender']"
+                      value="girl"
+                    />女の子</label
+                  >
+                  <label
+                    ><input
+                      type="radio"
+                      name="gender"
+                      v-model="input['gender']"
+                      value="other"
+                    />その他</label
                   >
                 </fieldset>
               </div>
@@ -218,6 +256,14 @@
 <script>
 export default {
   layout: "main",
+  mounted() {
+    if (this.input["birthday"] === "") {
+      this.input["birthday"] = this.$nowDate();
+    }
+    if (this.input["gender"] === "") {
+      this.input["gender"] = "boy";
+    }
+  },
   head() {
     return {
       title: "園児情報 Kinapp",
