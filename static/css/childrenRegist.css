@@ -4,21 +4,9 @@ main > div {
   width: 100%;
 }
 form {
-  padding: 0.3em 0.5em;
+  padding: 0.3em 0;
   width: 100%;
   height: auto;
-}
-*[data-edit] {
-  display: block;
-}
-*[data-edit] + div {
-  display: none;
-}
-*[data-edit="off"] {
-  display: none;
-}
-*[data-edit="off"] + div {
-  display: block;
 }
 .basicInfo {
   width: 100%;
@@ -32,12 +20,6 @@ form {
   text-align: left;
   display: block;
 }
-.basicInfo dl[data-edit="off"] {
-  width: auto;
-  height: auto;
-  padding-left: 13vw;
-  display: inline-block;
-}
 .basicInfo dt {
   position: absolute;
   top: 50%;
@@ -46,14 +28,52 @@ form {
   height: 13vw;
   border-radius: 50%;
   border: 3px solid rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: translate(0, -50%);
+  transition: all ease 0.3s;
   z-index: 100;
+}
+*[data-status="edit"] .basicInfo dt {
+  top: 0;
+  left: 50%;
+  width: 25vw;
+  height: 25vw;
+  transform: translate(-50%, 0);
 }
 .basicInfo dd {
   width: 100%;
   height: auto;
   text-align: left;
-  z-index: 100;
+  z-index: 50;
+  transition: all ease 0.3s;
+}
+*[data-status="off"] .basicInfo dd {
+  padding-left: 13vw;
+}
+*[data-status="edit"] .basicInfo dd {
+  padding-left: 0;
+  padding-top: 25vw;
+}
+.basicInfo dd > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: block;
+  transition: all ease 0.3s;
+}
+*[data-status="off"] .basicInfo dd div[data-view] {
+  position: relative;
+  height: auto;
+  opacity: 1;
+}
+*[data-status="edit"] .basicInfo dd div[data-input] {
+  position: relative;
+  height: auto;
+  opacity: 1;
 }
 .basicInfo dd > div div {
   width: 100%;
@@ -66,6 +86,28 @@ form {
   font-size: 0.8em;
   padding-right: 0.5em;
 }
+fieldset {
+  width: 100%;
+  height: auto;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.3);
+  padding-left: 5em;
+  margin-top: 1em;
+  text-align: left;
+  box-sizing: border-box;
+  display: block;
+}
+legend {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  text-align: left;
+  font-size: 0.7em;
+  line-height: 1.8;
+  padding: 0 0.3em;
+  display: block;
+}
 .basicInfo label {
   width: auto;
   height: auto;
@@ -73,14 +115,12 @@ form {
   text-align: left;
   display: inline-block;
 }
+
 .childInfo {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 0.5em 0.5em 0 0;
   height: auto;
-}
-.childInfo[data-edit="off"] {
-  display: block;
 }
 .childInfo > nav {
   width: 100%;
@@ -100,7 +140,20 @@ form {
 .childInfo > nav > label:first-of-type {
   border: none;
 }
-.childInfo .content_class label {
+.childInfo > input {
+  display: none;
+}
+.childInfo .content {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+.childInfo .content > div {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.childInfo .content label {
   font-size: 0.8em;
 }
 input[name="tab_name"] {
@@ -110,41 +163,20 @@ input:checked + .tab_class {
   background-color: cadetblue;
   color: aliceblue;
 }
-.content_class {
-  width: 100%;
-  height: auto;
-  display: none;
-}
-input:checked + .content_class {
+input:checked + .content {
   display: block;
 }
-#tab1 + div div {
-  width: 100%;
-  height: auto;
-  text-align: left;
-  display: block;
-}
-#tab1 + div fieldset {
-  padding-left: 6em;
-  padding-top: 0.8em;
-  width: 100%;
-  height: auto;
-  text-align: left;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  display: block;
-}
-#tab1 + div legend {
-  position: absolute;
-  bottom: 0;
-  left: 0.5em;
-  width: auto;
-  height: auto;
-  font-size: 0.7em;
-  padding: 0.2em 0;
-  color: rgba(0, 0, 0, 0.5);
-  display: block;
-}
-.content_class label {
+.content label {
   padding: 0.3em 0;
   margin-right: 0.5em;
+}
+
+@media screen and (max-width: 480px) {
+  fieldset {
+    padding: 0 0.3em;
+    margin-top: 0.3em;
+  }
+  legend {
+    position: relative;
+  }
 }

@@ -3,39 +3,50 @@
     <div v-bind:data-status="status">
       <form name="login_form">
         <div class="basicInfo">
-          <dl data-edit="off">
+          <dl>
             <dt>
               <figure></figure>
             </dt>
             <dd>
-              <div data-edit="off">
-                <div>
-                  <label>園児名</label>
-                  <input type="text" name="childName" placeholder="お名前" />
-                  <input type="text" name="childKana" placeholder="カナ" />
-                </div>
-                <div>
-                  <label>愛称</label>
+              <div data-input>
+                <fieldset>
+                  <legend>園児名</legend>
+                  <input type="text" name="first-name" />
+                </fieldset>
+                <fieldset>
+                  <input type="text" name="last-name" />
+                </fieldset>
+                <fieldset>
+                  <legend>園児名(カナ)</legend>
+                  <input type="text" name="first-kana" />
+                </fieldset>
+                <fieldset>
+                  <input type="text" name="last-kana" />
+                </fieldset>
+                <fieldset>
+                  <legend>愛称</legend>
                   <input type="text" name="nickName" placeholder="愛称" />
-                </div>
-                <div>
-                  <label>誕生日</label>
+                </fieldset>
+                <fieldset>
+                  <legend>誕生日</legend>
                   <input type="date" name="birthday" />
-                </div>
-                <div>
-                  <label>性別</label>
-                  <input
-                    type="radio"
-                    name="sex"
-                    value="boy"
-                    checked="checked"
-                  /><label>男の子</label>
-                  <input type="radio" name="sex" value="girl" /><label
-                    >女の子</label
+                </fieldset>
+                <fieldset>
+                  <legend>性別</legend>
+                  <label
+                    ><input
+                      type="radio"
+                      name="sex"
+                      value="boy"
+                      checked="checked"
+                    />男の子</label
                   >
-                </div>
+                  <label
+                    ><input type="radio" name="sex" value="girl" />女の子</label
+                  >
+                </fieldset>
               </div>
-              <div>
+              <div data-view>
                 <div>
                   <p>アニマル</p>
                   <p>キナップ</p>
@@ -43,13 +54,13 @@
                 <div><p>キナップ</p></div>
                 <div><p>4歳</p></div>
                 <div>
-                  <p></p>
+                  <p>A型</p>
                 </div>
               </div>
             </dd>
           </dl>
         </div>
-        <div class="childInfo" data-edit="off">
+        <div class="childInfo">
           <nav>
             <label for="tab1">基本</label>
             <label for="tab2">家族構成</label>
@@ -57,8 +68,8 @@
             <label for="tab4">生活</label>
             <label for="tab5">成長記録</label>
           </nav>
-          <input type="radio" name="tab_name" id="tab1" checked />
-          <div class="content_class">
+          <input type="radio" name="tab" id="tab1" checked />
+          <div class="content">
             <div>
               <fieldset>
                 <legend>登園方法</legend>
@@ -155,8 +166,8 @@
               </fieldset>
             </div>
           </div>
-          <input type="radio" name="tab_name" id="tab2" />
-          <div class="content_class">
+          <input type="radio" name="tab" id="tab2" />
+          <div class="content">
             <dl id="familyList">
               <dt>
                 <span>名前</span>
@@ -168,8 +179,8 @@
               <dd></dd>
             </dl>
           </div>
-          <input type="radio" name="tab_name" id="tab3" />
-          <div class="content_class">
+          <input type="radio" name="tab" id="tab3" />
+          <div class="content">
             <div>
               <label>入園日</label>
               <input type="text" name="enterDate" />
@@ -185,8 +196,8 @@
               <input type="text" name="address3" />
             </div>
           </div>
-          <input type="radio" name="tab_name" id="tab4" />
-          <div class="content_class">
+          <input type="radio" name="tab" id="tab4" />
+          <div class="content">
             <div>
               <label>アレルギー情報</label>
               <input type="text" name="allergies" />
@@ -195,8 +206,8 @@
               <input type="text" name="caution" />
             </div>
           </div>
-          <input type="radio" name="tab_name" id="tab5" />
-          <div class="content_class">
+          <input type="radio" name="tab" id="tab5" />
+          <div class="content">
             <table id="growList"></table>
           </div>
         </div>
