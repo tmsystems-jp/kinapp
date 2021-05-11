@@ -21,7 +21,7 @@
         :statusType="statusType"
         @status-change="statusChange"
       />
-      <Nuxt ref="Nuxt" key="Nuxt" :statusType="statusType" />
+      <Nuxt ref="Nuxt" key="Nuxt" />
     </transition-group>
     <Modal v-if="this.isActive" key="Modal" @event="alertEvent"></Modal>
   </div>
@@ -62,13 +62,14 @@ export default {
       if (this.parentsType) {
         this.$refs.pFooter.statusChange();
       }
-      this.$refs.Nuxt.$children[0].statusChange();
+      this.$refs.Nuxt.$children[0].statusChange(this.statusType);
     },
   },
   computed: {
     ...mapState("alert", ["isActive"]),
   },
   mounted() {
+    this.$refs.Nuxt.$children[0].statusChange(this.statusType);
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
       const user = this.$store.getters["user"];

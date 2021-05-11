@@ -11,10 +11,10 @@
       <button
         data-icon="cancel"
         data-text="キャンセル"
-        data-ibtn
+        data-ibtnt
         @click="cancel"
       ></button>
-      <button data-icon="save" data-text="保存" data-ibtn></button>
+      <button data-icon="save" data-text="保 存" data-ibtnt></button>
     </div>
   </footer>
 </template>

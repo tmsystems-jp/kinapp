@@ -321,6 +321,9 @@ footer div {
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+footer div.edit {
+  padding: 0 0.3em;
+}
 footer div button {
   width: 100%;
   min-width: 20%;
@@ -465,6 +468,35 @@ button[data-text][data-ibtn]:after {
   letter-spacing: 0.2em;
   display: block;
 }
+button[data-text][data-ibtnt]:after {
+  position: relative;
+  content: attr(data-text);
+  width: auto;
+  height: auto;
+  line-height: 2;
+  font-size: 0.8em;
+  font-weight: bold;
+  display: inline-block;
+}
+button[data-icon="save"][data-text][data-ibtnt]:after {
+  color: rgba(0, 122, 255, 1);
+}
+button[data-text][data-ibtnt]:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: calc(100% - 0.7em);
+  height: calc(100% - 1em);
+  transform: translate(-50%, -50%);
+  border: solid 2px rgba(0, 0, 0, 0.6);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 0.3em;
+  display: block;
+}
+button[data-icon="save"][data-text][data-ibtnt]:before {
+  border: solid 2px rgba(0, 122, 255, 1);
+}
 *[data-icon*="left"] {
   padding: 0.5em 0.8em 0.1em 2.5em;
 }
@@ -501,6 +533,11 @@ button[data-text][data-ibtn]:after {
   border-top: 0.2em solid transparent;
   border-bottom: 0.2em solid transparent;
 }
+*[data-icon][data-ibtnt][data-text] figure {
+  width: 1.2em;
+  border: solid 0.3em transparent;
+  border-left: none;
+}
 *[data-icon] svg {
   width: 100%;
   height: 100%;
@@ -514,6 +551,10 @@ button[data-text][data-ibtn]:after {
   display: inline-block; */
   opacity: 0.5;
 }
+button[data-icon] svg {
+  opacity: 0.6;
+}
+
 *[data-icon] svg * {
   fill: #000;
 }
@@ -524,6 +565,12 @@ button[data-text][data-ibtn]:after {
 *[data-icon][data-type*="left"] svg *[id*="right"],
 *[data-icon][data-type*="right"] svg *[id*="left"] {
   display: none;
+}
+button[data-icon="save"][data-text][data-ibtnt] svg {
+  opacity: 1;
+}
+button[data-icon="save"][data-text][data-ibtnt] svg * {
+  fill: rgba(0, 122, 255, 1);
 }
 
 /* @media (prefers-color-scheme: dark) {

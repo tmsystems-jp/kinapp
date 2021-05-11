@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div>
+    <div v-bind:data-status="status">
       <form name="login_form">
         <div class="basicInfo">
           <dl data-edit="off">
@@ -207,9 +207,6 @@
 <script>
 export default {
   layout: "main",
-  extends: {
-    props: ["statusType"],
-  },
   head() {
     return {
       title: "園児情報 Kinapp",
@@ -218,20 +215,20 @@ export default {
   },
   data() {
     return {
+      status: "",
       input: this.$ifchildren(),
       prefecturesList: this.$prefecturesList(),
       busCourse: [],
     };
   },
   methods: {
-    statusChange() {
-      console.log("set");
+    statusChange(data) {
+      if (data.edit) {
+        this.status = "edit";
+      } else {
+        this.status = "off";
+      }
     },
-  },
-  mounted() {
-    console.log(
-      this.$root.$children[this.$root.$children.length - 1].statusType
-    );
   },
 };
 </script>
