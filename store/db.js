@@ -3,35 +3,43 @@ import { db } from "~/plugins/firebase";
 export const actions = {
   async pullDefault({ app, commit, rootGetters }) {
     var user = rootGetters["userInfo"];
-    user = { principal: "Default" };
-    console.log(user);
-    var path = test(user, "");
-    console.log("★");
-    console.log(path);
-    // var setData = {};
-    // await Promise.all(
-    //   path.map(async (value) => {
-    //     const dbRef = value.dbpath;
-    //     await dbRef
-    //       .get()
-    //       .then((res) => {
-    //         if ("set" in value) {
-    //           if (value.name in setData) {
-    //             setData[value.name][value.set] = res.data();
-    //           } else {
-    //             setData[value.name] = {};
-    //             setData[value.name][value.set] = res.data();
-    //           }
-    //         } else {
-    //           setData[value.name] = res.data();
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log("error : " + error);
-    //       });
-    //   })
-    // );
-    // commit("setDefault", setData, { root: true });
+    user = {
+      principal: "SxiSlsgDU2tG8Qir6bg2",
+      staff: "JMkozdaQTg3TUxwYIbjY",
+      parent: "Default",
+      children: "Default"
+    };
+    var path = userDb(user, "");
+    var setData = {};
+    await Promise.all(
+      path.map(async (value) => {
+        const dbRef = value.value.dbpath;
+        await dbRef
+          .get()
+          .then((res) => {
+            setData[value.key] = res.data();
+            // commit(value.value.setName, res.data(), { root: true });
+          })
+          .catch((error) => {
+            console.log("error : " + error);
+          });
+      })
+    );
+
+    var itemPath = itemDb(user, "mainItem");
+    const dbRef = itemPath.dbpath;
+    console.log(dbRef);
+    await dbRef
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
   },
   async pullInfo({ commit }, payload) {
     const dbRef = payload.db;
@@ -67,56 +75,76 @@ export const actions = {
     //     console.log("error : " + error);
     //   });
   }
-  // async test(user, num) {
-  //   var path = [
-  //     {
-  //       value: {
-  //         dbpath: db.collection("principal").doc(user.principal),
-  //         name: "principal"
-  //       }
-  //     }
-  //   ];
-  //   return path;
-  // }
 };
 
-function test(user, num) {
+function userDb(user, num) {
   var path = [
     {
-      key: "1",
+      key: "principal",
       value: {
         dbpath: db.collection("principal").doc(user.principal),
-        name: "principal"
+        setName: "setPrincipal"
+      }
+    },
+    {
+      key: "staff",
+      value: {
+        dbpath: db
+          .collection("principal")
+          .doc(user.principal)
+          .collection("staff")
+          .doc(user.staff),
+        setName: "setStaff"
+      }
+    },
+    {
+      key: "parent",
+      value: {
+        dbpath: db.collection("parent").doc(user.parent),
+        setName: "setParent"
+      }
+    },
+    {
+      key: "children",
+      value: {
+        dbpath: db.collection("children").doc(user.children),
+        setName: "setChildren"
       }
     }
-    // {
-    //   dbpath: db
-    //     .collection("principal")
-    //     .doc(user.principal)
-    //     .collection("staff")
-    //     .doc(user.staff),
-    //   name: "staff"
-    // },
-    // {
-    //   dbpath: db
-    //     .collection("principal")
-    //     .doc("Default")
-    //     .collection("item")
-    //     .doc("Default"),
-    //   name: "item",
-    //   set: "sub"
-    // },
-    // { dbpath: db.collection("parent").doc("Default"), name: "parent" },
-    // { dbpath: db.collection("children").doc("Default"), name: "children" },
-    // {
-    //   dbpath: db.collection("item").doc("Default"),
-    //   name: "item",
-    //   set: "main"
-    // }
   ];
   var value = path;
   if (num !== "") {
     value = path.find((z) => (z.key = num)).value;
   }
+  return value;
+}
+
+function itemDb(user, num) {
+  var path = [
+    {
+      key: "subItem",
+      value: {
+        dbpath: db
+          .collection("principal")
+          .doc(user.principal)
+          .collection("item"),
+        setName: "setSubItem"
+      }
+    },
+    {
+      key: "mainItem",
+      value: {
+        dbpath: db.collection("item"),
+        setName: "setMainItem"
+      }
+    }
+  ];
+  console.log(path);
+  var value = path;
+  console.log(value);
+  if (num !== "") {
+    value = path.find((z) => (z.key = num)).value;
+  }
+  console.log(value);
   return value;
 }
