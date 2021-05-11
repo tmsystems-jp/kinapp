@@ -15,6 +15,7 @@
                     type="text"
                     name="first-name"
                     v-model="input['first-name']"
+                    placeholder="あにまる"
                   />
                 </fieldset>
                 <fieldset data-half>
@@ -22,6 +23,7 @@
                     type="text"
                     name="last-name"
                     v-model="input['first-name']"
+                    placeholder="きなっぷ"
                   />
                 </fieldset>
                 <fieldset data-half>
@@ -30,6 +32,7 @@
                     type="text"
                     name="first-kana"
                     v-model="input['first-kana']"
+                    placeholder="アニマル"
                   />
                 </fieldset>
                 <fieldset data-half>
@@ -37,6 +40,7 @@
                     type="text"
                     name="last-kana"
                     v-model="input['first-kana']"
+                    placeholder="キナップ"
                   />
                 </fieldset>
                 <fieldset>
