@@ -9,18 +9,18 @@
             </dt>
             <dd>
               <div data-input>
-                <fieldset>
+                <fieldset data-half>
                   <legend>園児名</legend>
                   <input type="text" name="first-name" />
                 </fieldset>
-                <fieldset>
+                <fieldset data-half>
                   <input type="text" name="last-name" />
                 </fieldset>
-                <fieldset>
+                <fieldset data-half>
                   <legend>園児名(カナ)</legend>
                   <input type="text" name="first-kana" />
                 </fieldset>
-                <fieldset>
+                <fieldset data-half>
                   <input type="text" name="last-kana" />
                 </fieldset>
                 <fieldset>

@@ -75,6 +75,9 @@ form {
   height: auto;
   opacity: 1;
 }
+div[data-input] {
+  font-size: 0 !important;
+}
 .basicInfo dd > div div {
   width: 100%;
   height: auto;
@@ -94,7 +97,12 @@ fieldset {
   margin-top: 1em;
   text-align: left;
   box-sizing: border-box;
+  overflow: hidden;
   display: block;
+}
+fieldset[data-half] {
+  width: 50%;
+  display: inline-block;
 }
 legend {
   position: absolute;
