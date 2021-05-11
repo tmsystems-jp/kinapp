@@ -8,6 +8,10 @@ form {
   width: 100%;
   height: auto;
 }
+form label {
+  padding: 0.3em 0;
+  margin-right: 0.5em;
+}
 .basicInfo {
   width: 100%;
   height: auto;
@@ -76,7 +80,7 @@ form {
   opacity: 1;
 }
 div[data-input] {
-  font-size: 0 !important;
+  font-size: 0;
 }
 .basicInfo dd > div div {
   width: 100%;
@@ -98,11 +102,21 @@ fieldset {
   text-align: left;
   box-sizing: border-box;
   overflow: hidden;
+  font-size: 1rem;
   display: block;
 }
 fieldset[data-half] {
-  width: 50%;
+  padding: 0;
   display: inline-block;
+}
+fieldset[data-half]:nth-of-type(even) {
+  width: calc(50% - 2vw - 2.5em);
+  margin-left: 2vw;
+}
+fieldset[data-half]:nth-of-type(odd) {
+  width: calc(50% - 2vw + 2.5em);
+  padding-left: 5em;
+  margin-right: 2vw;
 }
 legend {
   position: absolute;
@@ -174,15 +188,21 @@ input:checked + .tab_class {
 input:checked + .content {
   display: block;
 }
-.content label {
-  padding: 0.3em 0;
-  margin-right: 0.5em;
-}
 
 @media screen and (max-width: 480px) {
   fieldset {
     padding: 0 0.3em;
     margin-top: 0.3em;
+  }
+  fieldset[data-half] {
+    width: calc(50% - 2vw);
+    display: inline-block;
+  }
+  fieldset[data-half]:nth-of-type(even) {
+    margin-left: 2vw;
+  }
+  fieldset[data-half]:nth-of-type(odd) {
+    margin-right: 2vw;
   }
   legend {
     position: relative;

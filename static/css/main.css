@@ -125,6 +125,9 @@ label > input[type="radio"]:checked:before {
 button {
   cursor: pointer;
 }
+html {
+  font-size: 2.8vh;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     "Hiragino Sans", "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", Arial,
