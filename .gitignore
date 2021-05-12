@@ -79,3 +79,6 @@ dist
 
 # IDE
 .idea
+
+# firebase.js
+plugins/firebase.js
