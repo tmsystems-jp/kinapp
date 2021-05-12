@@ -18,13 +18,14 @@ export const actions = {
           .get()
           .then((res) => {
             setData[value.key] = res.data();
-            // commit(value.value.setName, res.data(), { root: true });
+            commit(value.value.setName, res.data(), { root: true });
           })
           .catch((error) => {
             console.log("error : " + error);
           });
       })
     );
+    console.log(setData);
 
     var itemPath = itemDb(user, "mainItem");
     const dbRef = itemPath.dbpath;
@@ -130,14 +131,14 @@ function itemDb(user, num) {
           .collection("item"),
         setName: "setSubItem"
       }
-    },
-    {
-      key: "mainItem",
-      value: {
-        dbpath: db.collection("item"),
-        setName: "setMainItem"
-      }
     }
+    // {
+    //   key: "mainItem",
+    //   value: {
+    //     dbpath: db.collection("item"),
+    //     setName: "setMainItem"
+    //   }
+    // }
   ];
   console.log(path);
   var value = path;
