@@ -2,10 +2,15 @@
   <footer v-bind:data-status="status">
     <nav>
       <button data-icon="home" data-text="ホーム" data-ibtn></button>
-      <button data-icon="clock" data-text="出欠確認" data-ibtn></button>
-      <button data-icon="staffinfo" data-text="職員情報" data-ibtn></button>
+      <button
+        data-icon="clock"
+        data-text="出欠確認"
+        data-ibtn
+        @click="$navigate('../attendance/attendanceList')"
+      ></button>
       <button data-icon="childrens" data-text="園児情報" data-ibtn></button>
       <button data-icon="notice" data-text="お知らせ" data-ibtn></button>
+      <button data-icon="setting" data-text="設定" data-ibtn></button>
     </nav>
     <div class="edit">
       <button

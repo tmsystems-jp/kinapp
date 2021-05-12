@@ -120,6 +120,7 @@
                     type="radio"
                     name="going-school"
                     value="parents"
+                    v-model="input['going-school']"
                   />保護者送迎</label
                 >
                 <label
@@ -127,17 +128,17 @@
                     type="radio"
                     name="going-school"
                     value="bus"
-                    checked="checked"
+                    v-model="input['going-school']"
                   />バス利用</label
                 >
               </fieldset>
-              <fieldset id="bus">
+              <fieldset v-if="input['going-school'] === 'bus'">
                 <legend>バスコース</legend>
                 <select
                   name="bus-course"
-                  v-model="input.busCourse"
-                  ref="busCourse"
-                  @change="$selectChange($refs.busCourse, input.busCourse)"
+                  v-model="input['bus-course']"
+                  ref="buscourse"
+                  @change="$selectChange($refs.buscourse, input['bus-course'])"
                   data-view="off"
                 >
                   <option value="" selected>バスコース</option>
@@ -156,15 +157,15 @@
                 <legend>郵便番号</legend>
                 <input
                   type="number"
-                  name="postno"
                   v-model="input['postno']"
                   placeholder="郵便番号"
+                  @input="postSearch()"
                 />
+                <button></button>
               </fieldset>
               <fieldset>
                 <legend>都道府県</legend>
                 <select
-                  name="prefectures"
                   v-model="input['prefectures']"
                   ref="prefectures"
                   @change="
@@ -184,42 +185,89 @@
               </fieldset>
               <fieldset>
                 <legend>区市町村</legend>
-                <input type="text" name="address1" placeholder="区市町村" />
+                <input
+                  type="text"
+                  v-model="input['address1']"
+                  placeholder="区市町村"
+                />
               </fieldset>
               <fieldset>
                 <legend>丁目・番地</legend>
-                <input type="text" name="address2" placeholder="丁目・番地" />
+                <input
+                  type="text"
+                  v-model="input['address2']"
+                  placeholder="丁目・番地"
+                />
               </fieldset>
               <fieldset>
                 <legend>以降・建物名</legend>
-                <input type="text" name="address3" placeholder="建物名" />
+                <input
+                  type="text"
+                  v-model="input['address3']"
+                  placeholder="建物名"
+                />
               </fieldset>
               <fieldset>
                 <legend>電話番号</legend>
-                <input type="tel" name="telephone" placeholder="電話番号" />
-              </fieldset>
-              <fieldset>
-                <legend>緊急連絡先</legend>
                 <input
                   type="tel"
-                  name="emergency contact"
+                  v-model="input['telephone']"
+                  placeholder="電話番号"
+                />
+              </fieldset>
+              <fieldset
+                v-for="(data, index) in input['emergency-contact']"
+                :key="index"
+              >
+                <legend>
+                  緊急連絡先{{
+                    String.fromCharCode(
+                      String(index + 1).charCodeAt(0) + 0xfee0
+                    )
+                  }}
+                </legend>
+                <input
+                  type="tel"
+                  v-model="input['emergency-contact'][index]"
                   placeholder="緊急連絡先"
+                  @input="emergencyContact()"
                 />
               </fieldset>
             </div>
           </div>
           <input type="radio" name="tab" id="tab2" />
           <div class="content">
-            <dl id="familyList">
-              <dt>
-                <span>名前</span>
-                <span>続柄</span>
-                <span>誕生日</span>
-                <span>職場/学校</span>
-                <span>補足</span>
-              </dt>
-              <dd></dd>
-            </dl>
+            <ul>
+              <li>
+                <dl>
+                  <dt>
+                    <figure></figure>
+                  </dt>
+                  <dd>
+                    <fieldset>
+                      <legend>名前</legend>
+                      <input type="text" placeholder="名前" />
+                    </fieldset>
+                    <fieldset>
+                      <legend>続柄</legend>
+                      <input type="tel" placeholder="続柄" />
+                    </fieldset>
+                    <fieldset>
+                      <legend>誕生日</legend>
+                      <input type="date" placeholder="誕生日" />
+                    </fieldset>
+                    <fieldset>
+                      <legend>職場/学校</legend>
+                      <input type="text" placeholder="職場/学校" />
+                    </fieldset>
+                    <fieldset>
+                      <legend>補足</legend>
+                      <textarea placeholder="補足"></textarea>
+                    </fieldset>
+                  </dd>
+                </dl>
+              </li>
+            </ul>
           </div>
           <input type="radio" name="tab" id="tab3" />
           <div class="content">
@@ -267,6 +315,12 @@ export default {
     if (this.input["gender"] === "") {
       this.input["gender"] = "boy";
     }
+    if (this.input["going-school"] === "") {
+      this.input["going-school"] = "parents";
+    }
+    if (this.input["emergency-contact"].length === 0) {
+      this.input["emergency-contact"] = [""];
+    }
   },
   head() {
     return {
@@ -288,6 +342,26 @@ export default {
         this.status = "edit";
       } else {
         this.status = "off";
+      }
+    },
+    emergencyContact() {
+      var lnum = this.input["emergency-contact"].length - 1;
+      if (this.input["emergency-contact"][lnum] !== "") {
+        this.input["emergency-contact"].push("");
+      } else {
+        if (this.input["emergency-contact"][lnum - 1] === "") {
+          this.input["emergency-contact"].pop();
+        }
+      }
+    },
+    async postSearch() {
+      var post = this.input["postno"];
+      if (post === "8120897") {
+        this.input["prefectures"] = this.prefecturesList.find(
+          (z) => z.name === "福岡県"
+        ).code;
+        console.log(this.$refs.prefectures);
+        this.$selectChange(this.$refs.prefectures, this.input["prefectures"]);
       }
     },
   },

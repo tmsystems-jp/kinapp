@@ -137,7 +137,6 @@ legend {
   text-align: left;
   display: inline-block;
 }
-
 .childInfo {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.6);
@@ -178,9 +177,6 @@ legend {
 .childInfo .content label {
   font-size: 0.8em;
 }
-input[name="tab_name"] {
-  display: none;
-}
 input:checked + .tab_class {
   background-color: cadetblue;
   color: aliceblue;
@@ -188,7 +184,35 @@ input:checked + .tab_class {
 input:checked + .content {
   display: block;
 }
-
+.childInfo .content ul {
+  width: 100%;
+  height: auto;
+  padding: 0.3em;
+  display: block;
+}
+.childInfo .content ul li {
+  width: 50%;
+  height: auto;
+  display: block;
+}
+.childInfo .content dl dt {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.childInfo .content dl dt span {
+  width: 100%;
+  height: auto;
+  font-size: 0.7em;
+  padding: 0.3em;
+  text-align: center;
+  display: block;
+}
+.childInfo .content dl dd {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 @media screen and (max-width: 480px) {
   fieldset {
     padding: 0 0.3em;
