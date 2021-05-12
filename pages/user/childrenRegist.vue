@@ -161,7 +161,7 @@
                   placeholder="郵便番号"
                   @input="postSearch()"
                 />
-                <button></button>
+                <span>{{ input["postno"] }}</span>
               </fieldset>
               <fieldset>
                 <legend>都道府県</legend>
@@ -182,6 +182,7 @@
                     {{ data.name }}
                   </option>
                 </select>
+                <span>{{ input["prefectures"] }}</span>
               </fieldset>
               <fieldset>
                 <legend>区市町村</legend>
@@ -190,6 +191,7 @@
                   v-model="input['address1']"
                   placeholder="区市町村"
                 />
+                <span>{{ input["address1"] }}</span>
               </fieldset>
               <fieldset>
                 <legend>丁目・番地</legend>
@@ -198,6 +200,7 @@
                   v-model="input['address2']"
                   placeholder="丁目・番地"
                 />
+                <span>{{ input["address2"] }}</span>
               </fieldset>
               <fieldset>
                 <legend>以降・建物名</legend>
@@ -206,6 +209,7 @@
                   v-model="input['address3']"
                   placeholder="建物名"
                 />
+                <span>{{ input["address3"] }}</span>
               </fieldset>
               <fieldset>
                 <legend>電話番号</legend>
@@ -214,6 +218,7 @@
                   v-model="input['telephone']"
                   placeholder="電話番号"
                 />
+                <span>{{ input["telephone"] }}</span>
               </fieldset>
               <fieldset
                 v-for="(data, index) in input['emergency-contact']"
@@ -232,6 +237,7 @@
                   placeholder="緊急連絡先"
                   @input="emergencyContact()"
                 />
+                <span>{{ input["emergency-contact"][index] }}</span>
               </fieldset>
             </div>
           </div>
@@ -360,7 +366,6 @@ export default {
         this.input["prefectures"] = this.prefecturesList.find(
           (z) => z.name === "福岡県"
         ).code;
-        console.log(this.$refs.prefectures);
         this.$selectChange(this.$refs.prefectures, this.input["prefectures"]);
       }
     },
