@@ -80,7 +80,7 @@ export default {
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
     });
-    this.$store.dispatch("db/pullDefault");
+    // this.$store.dispatch("db/pullDefault");
   },
   components: {
     Header,

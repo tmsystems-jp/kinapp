@@ -17,12 +17,18 @@ export const state = () => ({
     type: "",
     login: false
   },
-  userInfo: null,
+  userInfo: {
+    staffCd: "",
+    princialCd: "",
+    parentCd: "",
+    childrenInfo: [{ childCd: "", principalCd: "", classCd: "" }]
+  },
   parent: null,
   principal: null,
   children: null,
   staff: null,
-  item: null
+  mainItem: null,
+  subItem: { principalCd: [] }
 });
 
 export const getters = {
@@ -44,8 +50,11 @@ export const getters = {
   staff: (state) => {
     return state.staff;
   },
-  item: (state) => {
-    return state.item;
+  mainItem: (state) => {
+    return state.mainItem;
+  },
+  subItem: (state) => {
+    return state.subItem;
   }
 };
 
@@ -57,7 +66,8 @@ export const mutations = {
     state.principal = payload.principal;
     state.children = payload.children;
     state.staff = payload.staff;
-    state.item = payload.item;
+    state.mainItem = payload.mainItem;
+    state.subItem = payload.subItem;
   },
   setUser(state, payload) {
     state.user.uid = payload.uid;
@@ -85,7 +95,10 @@ export const mutations = {
   setStaff(state, payload) {
     state.staff = payload;
   },
-  setItem(state, payload) {
-    state.item = payload;
+  setSubItem(state, payload) {
+    state.subItem = payload;
+  },
+  setMainItem(state, payload) {
+    state.mainItem = payload;
   }
 };

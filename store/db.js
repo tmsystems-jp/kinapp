@@ -1,15 +1,70 @@
 import { db } from "~/plugins/firebase";
 
 export const actions = {
-  async pullDefault({ app, commit, rootGetters }) {
-    var user = rootGetters["userInfo"];
-    user = {
+  async pullUserInfo({ commit, rootGetters }) {
+    var user = rootGetters["user"];
+
+    var userInfo = {};
+    var childrenInfo = [];
+    var childList = [];
+    if (user.type === "parents") {
+      // 保護者情報取得
+      await db
+        .collection("parent")
+        .where("mail-address", "==", user.email)
+        .get()
+        .then((snapShot) => {
+          snapShot.forEach((doc) => {
+            console.log(`${doc.id}: ${doc.data().userName}`);
+            userInfo["parentCd"] = doc.id;
+            childList = doc.data().children;
+          });
+        });
+      // 園児情報取得
+      await Promise.all(
+        childList.map(async (child) => {
+          await db
+            .collection("children")
+            .doc(child)
+            .get()
+            .then((res) => {
+              childrenInfo.push({
+                childCd: res.data()["child-cd"],
+                principalCd: res.data()["principal-cd"],
+                classCd: res.data()["class-cd"]
+              });
+            })
+            .catch((error) => {
+              console.log("error : " + error);
+            });
+        })
+      );
+      userInfo["childrenInfo"] = childrenInfo;
+    } else {
+      // スタッフ情報取得
+      await db
+        .collection("principal")
+        .where("mail-address", "==", user.email)
+        .get()
+        .then((snapShot) => {
+          snapShot.forEach((doc) => {
+            console.log(`${doc.id}: ${doc.data().userName}`);
+            userInfo["parentCd"] = doc.id;
+            childList = doc.data().children;
+          });
+        });
+    }
+  },
+
+  async pullDefault({ commit, rootGetters }) {
+    var userInfo = rootGetters["userInfo"];
+    userInfo = {
       principal: "SxiSlsgDU2tG8Qir6bg2",
       staff: "JMkozdaQTg3TUxwYIbjY",
       parent: "Default",
       children: "Default"
     };
-    var path = userDb(user, "");
+    var path = userDb(userInfo, "");
     var setData = {};
     await Promise.all(
       path.map(async (value) => {
@@ -25,24 +80,45 @@ export const actions = {
           });
       })
     );
-    console.log(setData);
 
-    var itemPath = itemDb(user, "mainItem");
+    var itemPath = itemDb(userInfo, "mainItem");
+    var setItem = {};
     const dbRef = itemPath.dbpath;
-    console.log(dbRef);
     await dbRef
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
+          setItem[doc.id] = doc.data();
         });
       })
       .catch((error) => {
         console.log("error : " + error);
       });
+    commit(itemPath.setName, setItem, { root: true });
   },
-  async pullInfo({ commit }, payload) {
+  async pullSubItem({ commit, rootGetters }) {
+    var user = rootGetters["userInfo"];
+    var itemPath = itemDb(user, "subItem");
+    var setItem = {};
+    const dbRef = itemPath.dbpath;
+    await dbRef
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setItem[doc.id] = doc.data();
+        });
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
+    commit(itemPath.setName, setItem, { root: true });
+  },
+
+  async selectByWhere({ commit, rootGetters }, payload) {
+    var user = rootGetters["user"];
+
+    var dbPath = userDb(user, "");
+
     const dbRef = payload.db;
     await dbRef
       .get()
@@ -53,6 +129,7 @@ export const actions = {
         console.log("error : " + error);
       });
   },
+
   async updateInfo({ commit }, payload) {
     const dbRef = payload.db;
     await dbRef
@@ -83,7 +160,7 @@ function userDb(user, num) {
     {
       key: "principal",
       value: {
-        dbpath: db.collection("principal").doc(user.principal),
+        dbpath: db.collection("principal").doc(user.principalCd),
         setName: "setPrincipal"
       }
     },
@@ -92,30 +169,30 @@ function userDb(user, num) {
       value: {
         dbpath: db
           .collection("principal")
-          .doc(user.principal)
+          .doc(user.principalCd)
           .collection("staff")
-          .doc(user.staff),
+          .doc(user.staffCd),
         setName: "setStaff"
       }
     },
     {
       key: "parent",
       value: {
-        dbpath: db.collection("parent").doc(user.parent),
+        dbpath: db.collection("parent").doc(user.parentCd),
         setName: "setParent"
       }
     },
     {
       key: "children",
       value: {
-        dbpath: db.collection("children").doc(user.children),
+        dbpath: db.collection("children").doc(user.childCd),
         setName: "setChildren"
       }
     }
   ];
   var value = path;
   if (num !== "") {
-    value = path.find((z) => (z.key = num)).value;
+    value = path.find((z) => z.key === num).value;
   }
   return value;
 }
@@ -131,21 +208,18 @@ function itemDb(user, num) {
           .collection("item"),
         setName: "setSubItem"
       }
+    },
+    {
+      key: "mainItem",
+      value: {
+        dbpath: db.collection("item"),
+        setName: "setMainItem"
+      }
     }
-    // {
-    //   key: "mainItem",
-    //   value: {
-    //     dbpath: db.collection("item"),
-    //     setName: "setMainItem"
-    //   }
-    // }
   ];
-  console.log(path);
   var value = path;
-  console.log(value);
   if (num !== "") {
-    value = path.find((z) => (z.key = num)).value;
+    value = path.find((z) => z.key === num).value;
   }
-  console.log(value);
   return value;
 }
