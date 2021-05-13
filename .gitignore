@@ -82,3 +82,6 @@ dist
 
 # firebase.js
 plugins/firebase.js
+
+# yarn.lock
+yarn.lock
