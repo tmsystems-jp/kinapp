@@ -12,7 +12,7 @@ export const actions = {
 
 export const state = () => ({
   user: {
-    uid: "",
+    principalCd: "",
     email: "",
     type: "",
     login: false
