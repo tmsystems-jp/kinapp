@@ -1,5 +1,7 @@
 export default ({ app, store, context }, inject) => {
   inject("ifchildren", () => children());
+  inject("ifdocid", () => docid());
+  inject("ifdbPayload", () => dbPayload());
 };
 function children() {
   var data = {
@@ -31,6 +33,24 @@ function children() {
     address3: "",
     telephone: "",
     "emergency-contact": []
+  };
+  return data;
+}
+function docid() {
+  var data = {
+    "child-doc-id": "",
+    "parent-doc-id": "",
+    "staff-doc-id": "",
+    "principal-doc-id": ""
+  };
+  return data;
+}
+function dbPayload() {
+  var data = {
+    principalDocId: "",
+    dbName: "",
+    strWhere: [{ columnName: "", strCompare: "", compareVal: "" }],
+    docIdList: [docid()]
   };
   return data;
 }

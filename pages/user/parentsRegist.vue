@@ -80,7 +80,6 @@ export default {
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
     });
-    this.$store.dispatch("db/pullUserInfo");
   },
   components: {
     Header,

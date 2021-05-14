@@ -4,17 +4,9 @@ export const actions = {
   async pullUserInfo({ commit, rootGetters }) {
     var user = rootGetters["user"];
 
-    // user = {
-    //   type: "parents",
-    //   email: "test@sample.com"
-    // };
-    user = {
-      type: "staff",
-      principalCd: "A001",
-      email: "test2@gmail.com"
-    };
     var principalList = [];
     if (user.type === "parents") {
+      console.log("保護者情報取得");
       // 保護者情報取得
       var childrenInfo = [];
       var childList = [];
@@ -25,7 +17,7 @@ export const actions = {
         .then((snapShot) => {
           snapShot.forEach((doc) => {
             const parentInfo = { id: doc.id, data: doc.data() };
-            childList = doc.data()["children"];
+            commit("setParent", parentInfo, { root: true });
           });
         });
       // 園児情報取得
@@ -46,10 +38,10 @@ export const actions = {
             });
         })
       );
-      console.log(childrenInfo);
-      // userInfo["childrenInfo"] = childrenInfo;
+      commit("setChildren", childrenInfo, { root: true });
     } else {
       // 幼稚園情報取得
+      console.log("スタッフ情報取得");
       await db
         .collection("principal")
         .where("principal-cd", "==", user.principalCd)
@@ -58,8 +50,7 @@ export const actions = {
           snapShot.forEach((doc) => {
             const principalInfo = { id: doc.id, data: doc.data() };
             principalList.push(doc.id);
-            console.log("principalInfo");
-            console.log(principalInfo);
+            commit("setPrincipal", principalInfo, { root: true });
           });
         });
       // スタッフ情報取得
@@ -73,8 +64,7 @@ export const actions = {
         .then((snapShot) => {
           snapShot.forEach((doc) => {
             const staffInfo = { id: doc.id, data: doc.data() };
-            console.log("staffInfo");
-            console.log(staffInfo);
+            commit("setStaff", staffInfo, { root: true });
           });
         });
     }
@@ -93,12 +83,9 @@ export const actions = {
       .catch((error) => {
         console.log("error : " + error);
       });
-    console.log("mainItem");
-    console.log(setItem);
-    // commit(itemPath.setName, setItem, { root: true });
+    commit(itemPath.setName, setItem, { root: true });
 
     // subItem取得
-    console.log(principalList);
     var setPriSubItem = {};
     await Promise.all(
       principalList.map(async (principal) => {
@@ -117,169 +104,146 @@ export const actions = {
             console.log("error : " + error);
           });
         setPriSubItem[principal] = setSubItem;
-        console.log("subItem");
-        console.log(setPriSubItem);
-        console.log(setSubItem);
       })
     );
+    commit(itemPath.setName, setPriSubItem, { root: true });
   },
 
-  async pullDefault({ commit, rootGetters }) {
-    // var userInfo = rootGetters["userInfo"];
-    // userInfo = {
-    //   principal: "SxiSlsgDU2tG8Qir6bg2",
-    //   staff: "JMkozdaQTg3TUxwYIbjY",
-    //   parent: "Default",
-    //   children: "Default"
-    // };
-    // var path = userDb(userInfo, "");
-    // var setData = {};
-    // await Promise.all(
-    //   path.map(async (value) => {
-    //     const dbRef = value.value.dbpath;
-    //     await dbRef
-    //       .get()
-    //       .then((res) => {
-    //         setData[value.key] = res.data();
-    //         commit(value.value.setName, res.data(), { root: true });
-    //       })
-    //       .catch((error) => {
-    //         console.log("error : " + error);
-    //       });
-    //   })
-    // );
-    // var itemPath = itemDb(userInfo, "mainItem");
-    // var setItem = {};
-    // const dbRef = itemPath.dbpath;
-    // await dbRef
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       setItem[doc.id] = doc.data();
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error : " + error);
-    //   });
-    // commit(itemPath.setName, setItem, { root: true });
-  },
-
-  async pullItem({ commit, rootGetters }) {
-    console.log();
-    var user = rootGetters["userInfo"];
-    var itemPath = itemDb(user.principalCd, "subItem");
-    var setItem = {};
-    const dbRef = itemPath.dbpath;
-    await dbRef
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          setItem[doc.id] = doc.data();
-        });
-      })
-      .catch((error) => {
-        console.log("error : " + error);
-      });
-    commit(itemPath.setName, setItem, { root: true });
-  },
-
-  async selectByWhere({ commit }, payload) {
-    var dbInfo = userDb(payload.principalCd, payload.dbName);
+  async selectByDocId({ commit }, payload) {
+    var dbInfo = userDbDocId(payload.docIdList, payload.dbName);
     var dbRef = dbInfo.dbpath;
+
+    var data = null;
 
     await dbRef
       .get()
       .then((res) => {
-        commit("setUserInfo", res.data(), { root: true });
+        data = res.data();
       })
       .catch((error) => {
         console.log("error : " + error);
       });
+    return data;
   },
+  async selectByWhere({ commit }, payload) {
+    var dbInfo = userDb(payload.principalDocId, payload.dbName);
+    var dbRef = dbInfo.dbpath;
 
-  async selectByDocId({ commit }, docId) {
-    // var user = rootGetters["userInfo"];
-    // const dbRef = payload.db;
-    // await dbRef
-    //   .get()
-    //   .then((res) => {
-    //     commit("setUserInfo", res.data(), { root: true });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error : " + error);
-    //   });
+    var data = null;
+
+    payload["strWhere"].forEach((str) => {
+      dbRef = dbRef.where(str.columnName, str.strCompare, str.compareVal);
+    });
+    await dbRef
+      .get()
+      .then((res) => {
+        data = res.data();
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
+
+    return data;
   },
-  async insert({ commit }, payload) {
-    // var user = rootGetters["userInfo"];
-    // const dbRef = payload.db;
-    // await dbRef
-    //   .get()
-    //   .then((res) => {
-    //     commit("setUserInfo", res.data(), { root: true });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error : " + error);
-    //   });
-  },
-  async update({ commit }, payload) {
-    // const dbRef = payload.db;
-    // await dbRef
-    //   .get()
-    //   .then((res) => {
-    //     commit("setUserInfo", res.data(), { root: true });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error : " + error);
-    //   });
-  },
-  async delete({ commit }, payload) {
-    // const dbRef = payload.db;
-    // await dbRef
-    //   .get()
-    //   .then((res) => {
-    //     commit("setUserInfo", res.data(), { root: true });
-    //   })
-    //   .catch((error) => {
-    //     console.log("error : " + error);
-    //   });
-  }
+  async insert({ commit }, payload) {},
+  async update({ commit }, payload) {},
+  async delete({ commit }, payload) {}
 };
 
-function userDb(user, num) {
-  var path = [
-    {
+function userDbDocId(docId, num) {
+  var path = [];
+
+  if (docId["principal-doc-id"]) {
+    // 幼稚園情報設定
+    path.push({
       key: "principal",
       value: {
-        dbpath: db.collection("principal").doc(user.principalCd),
+        dbpath: db.collection("principal").doc(docId["principal-doc-id"]),
         setName: "setPrincipal"
       }
-    },
-    {
+    });
+    if (docId["staff-doc-id"]) {
+      // スタッフ情報設定
+      path.push({
+        key: "staff",
+        value: {
+          dbpath: db
+            .collection("principal")
+            .doc(docId["principal-doc-id"])
+            .collection("staff")
+            .doc(docId["staff-doc-id"]),
+          setName: "setStaff"
+        }
+      });
+    }
+  }
+
+  if (docId["parent-doc-id"]) {
+    path.push({
+      key: "parent",
+      value: {
+        dbpath: db.collection("parent").doc(docId["parent-doc-id"]),
+        setName: "setParent"
+      }
+    });
+  }
+  if (docId["child-doc-id"]) {
+    path.push({
+      key: "children",
+      value: {
+        dbpath: db.collection("children").doc(docId["child-doc-id"]),
+        setName: "setChildren"
+      }
+    });
+  }
+
+  var value = path;
+  if (num !== "") {
+    value = path.find((z) => z.key === num).value;
+  }
+  return value;
+}
+
+function userDb(docId, num) {
+  var path = [];
+
+  // 幼稚園情報設定
+  path.push({
+    key: "principal",
+    value: {
+      dbpath: db.collection("principal"),
+      setName: "setPrincipal"
+    }
+  });
+  if (docId["principal-doc-id"]) {
+    // スタッフ情報設定
+    path.push({
       key: "staff",
       value: {
         dbpath: db
           .collection("principal")
-          .doc(user.principalCd)
-          .collection("staff")
-          .doc(user.staffCd),
+          .doc(docId["principal-doc-id"])
+          .collection("staff"),
         setName: "setStaff"
       }
-    },
-    {
-      key: "parent",
-      value: {
-        dbpath: db.collection("parent").doc(user.parentCd),
-        setName: "setParent"
-      }
-    },
-    {
-      key: "children",
-      value: {
-        dbpath: db.collection("children").doc(user.childCd),
-        setName: "setChildren"
-      }
+    });
+  }
+
+  path.push({
+    key: "parent",
+    value: {
+      dbpath: db.collection("parent"),
+      setName: "setParent"
     }
-  ];
+  });
+  path.push({
+    key: "children",
+    value: {
+      dbpath: db.collection("children"),
+      setName: "setChildren"
+    }
+  });
+
   var value = path;
   if (num !== "") {
     value = path.find((z) => z.key === num).value;

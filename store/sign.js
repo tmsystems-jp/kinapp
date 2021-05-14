@@ -3,6 +3,7 @@ import firebase from "~/plugins/firebase";
 
 export const actions = {
   async signInWithEmail({ dispatch }, { email, password, type }) {
+    console.log("signInWithEmail");
     try {
       await auth.signInWithEmailAndPassword(email, password);
       dispatch("checkLogin", { type });

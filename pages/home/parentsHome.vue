@@ -30,7 +30,6 @@ export default {
       db: database,
       data: this.parentInfo,
     };
-    this.$store.dispatch("db/pullDefault");
   },
   computed: {
     user() {
