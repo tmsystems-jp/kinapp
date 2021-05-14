@@ -90,13 +90,17 @@
               </div>
               <div data-view>
                 <div>
-                  <p>アニマル</p>
-                  <p>キナップ</p>
+                  <p>{{ input["first-name"] }}</p>
+                  <p>{{ input["last-name"] }}</p>
                 </div>
-                <div><p>キナップ</p></div>
-                <div><p>4歳</p></div>
                 <div>
-                  <p>A型</p>
+                  <p>{{ input["nickname"] }}</p>
+                </div>
+                <div>
+                  <p>{{ $getAge(input["birthday"]) }}歳</p>
+                </div>
+                <div>
+                  <p>{{ input["blood"] }}</p>
                 </div>
               </div>
             </dd>

@@ -25,7 +25,20 @@ export default ({ app, store, context }, inject) => {
   inject("selectChange", (target, data) => selectChange(target, data));
   inject("prefecturesList", () => prefecturesList());
   inject("nowDate", () => nowDate());
+  inject("getAge", (data) => getAge(data));
 };
+function getAge(data) {
+  if (data) {
+    var bd = new Date(data);
+    var td = new Date();
+    var tyb = new Date(td.getFullYear(), bd.getMonth() - 1, bd.getDate());
+    var age = td.getFullYear() - bd.getFullYear();
+    if (td < tyb) {
+      age--;
+    }
+    return age;
+  }
+}
 function nowDate() {
   var data = [];
   var nData = new Date();
