@@ -45,11 +45,13 @@ textarea {
   appearance: none;
   font-size: 1em;
   user-select: auto;
-  line-height: 1.2em;
+  line-height: 1.2;
   vertical-align: baseline;
   box-sizing: border-box;
   cursor: pointer;
   padding: 0 0.3em;
+  margin-top: 0.3em;
+  min-height: 1.2em;
 }
 select {
   width: auto;
@@ -70,7 +72,7 @@ select option:first-of-type {
 select[data-view="off"] {
   color: rgba(0, 0, 0, 0.2);
   font-size: 0.8em;
-  padding-top: 0.3em;
+  padding-top: 0.4em;
 }
 input[type="text"],
 input[type="email"],
@@ -86,6 +88,8 @@ input[type="number"] {
   padding-top: 0.8em;
 }
 label {
+  padding:0 0.2em;
+  padding-bottom: 0.1em;
   vertical-align: middle;
   display: inline-flex;
   align-items: center;
@@ -100,6 +104,7 @@ label > input[type="radio"] {
   height: calc(1em + 2px);
   border-radius: 50%;
   vertical-align: middle;
+  margin: 0;
   margin-right: 0.3em;
   box-sizing: border-box;
   overflow: visible;
