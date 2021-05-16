@@ -48,11 +48,27 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$router.push("/home/staffHome");
-      console.log(this.schoolCode);
-      console.log(this.idCode);
-      console.log(this.password);
+    async login() {
+      // スタッフ情報取得
+      await this.$store.dispatch("db/signInWithEmail", {});
+
+      // 認証処理
+      await this.$store.dispatch("sign/signInWithEmail", {
+        email: this.email,
+        password: this.password,
+        type: "staff",
+      });
+      const user = this.$store.getters["user"];
+      if (user) {
+        console.log("認証成功");
+        // 初期データ取得
+        this.$store.dispatch("db/pullUserInfo");
+
+        // 初期データ取得後、画面遷移
+        this.$router.push("/home/staffHome");
+      } else {
+        console.log("認証失敗");
+      }
     },
   },
 };

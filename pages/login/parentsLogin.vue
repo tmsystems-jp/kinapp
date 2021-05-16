@@ -43,21 +43,17 @@ export default {
   methods: {
     async loginMail() {
       // 認証処理
-      console.log("★1");
       await this.$store.dispatch("sign/signInWithEmail", {
         email: this.email,
         password: this.password,
         type: "parents",
       });
-      console.log("★2");
       const user = this.$store.getters["user"];
-      console.log("★3");
       if (user) {
         console.log("認証成功");
         // 初期データ取得
         this.$store.dispatch("db/pullUserInfo");
 
-        console.log("初期データ取得成功");
         // 初期データ取得後、画面遷移
         this.$router.push("/home/parentsHome");
       } else {

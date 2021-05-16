@@ -54,7 +54,6 @@ export const actions = {
           });
         });
       // スタッフ情報取得
-      console.log(principalList[0]);
       await db
         .collection("principal")
         .doc(principalList[0])
