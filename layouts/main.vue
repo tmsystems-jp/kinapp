@@ -4,21 +4,21 @@
       <Header
         ref="Header"
         key="Header"
-        :statusType="statusType"
+        :actionData="actionData"
         @status-change="statusChange"
       />
       <pFooter
         ref="pFooter"
         v-if="parentsType"
         key="pFooter"
-        :statusType="statusType"
+        :actionData="actionData"
         @status-change="statusChange"
       />
       <sFooter
         ref="sFooter"
         v-if="staffType"
         key="sFooter"
-        :statusType="statusType"
+        :actionData="actionData"
         @status-change="statusChange"
       />
       <Nuxt ref="Nuxt" key="Nuxt" />
@@ -43,8 +43,10 @@ export default {
     return {
       staffType: true,
       parentsType: false,
-      statusType: {
+      actionData: {
         edit: false,
+        cancel: false,
+        save: false,
       },
     };
   },
@@ -54,7 +56,7 @@ export default {
       this.$nuxt.$emit(evName, data);
     },
     statusChange(data) {
-      this.statusType = data;
+      this.actionData = data;
       this.$refs.Header.statusChange();
       if (this.staffType) {
         this.$refs.sFooter.statusChange();
@@ -62,14 +64,16 @@ export default {
       if (this.parentsType) {
         this.$refs.pFooter.statusChange();
       }
-      this.$refs.Nuxt.$children[0].statusChange(this.statusType);
+      this.$refs.Nuxt.$children[0].statusChange(this.actionData);
+      this.actionData.cancel = false;
+      this.actionData.save = false;
     },
   },
   computed: {
     ...mapState("alert", ["isActive"]),
   },
   mounted() {
-    this.$refs.Nuxt.$children[0].statusChange(this.statusType);
+    this.$refs.Nuxt.$children[0].statusChange(this.actionData);
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
       const user = this.$store.getters["user"];

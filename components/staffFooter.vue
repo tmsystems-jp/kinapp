@@ -19,14 +19,19 @@
         data-ibtnt
         @click="cancel"
       ></button>
-      <button data-icon="save" data-text="保 存" data-ibtnt></button>
+      <button
+        data-icon="save"
+        data-text="保 存"
+        data-ibtnt
+        @click="save"
+      ></button>
     </div>
   </footer>
 </template>
 <script>
 export default {
   extends: {
-    props: ["statusType"],
+    props: ["actionData"],
   },
   data() {
     return {
@@ -34,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    if (this.statusType.edit) {
+    if (this.actionData.edit) {
       this.status = "edit";
     } else {
       this.status = "off";
@@ -42,12 +47,17 @@ export default {
   },
   methods: {
     cancel() {
-      this.statusType.edit = false;
-      this.$emit("status-change", this.statusType);
+      this.actionData.edit = false;
+      this.actionData.cancel = true;
+      this.$emit("status-change", this.actionData);
     },
-    save() {},
+    save() {
+      this.actionData.edit = false;
+      this.actionData.save = true;
+      this.$emit("status-change", this.actionData);
+    },
     statusChange() {
-      if (this.statusType.edit) {
+      if (this.actionData.edit) {
         this.status = "edit";
       } else {
         this.status = "off";

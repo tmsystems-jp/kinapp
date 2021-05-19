@@ -22,7 +22,7 @@
 <script>
 export default {
   extends: {
-    props: ["statusType"],
+    props: ["actionData"],
   },
 };
 </script>

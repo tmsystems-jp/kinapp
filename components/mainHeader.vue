@@ -15,7 +15,7 @@
 <script>
 export default {
   extends: {
-    props: ["statusType"],
+    props: ["actionData"],
   },
   data() {
     return {
@@ -28,7 +28,7 @@ export default {
     if (user.login) {
       console.log("load");
     }
-    if (this.statusType.edit) {
+    if (this.actionData.edit) {
       this.status = "edit";
     } else {
       this.status = "off";
@@ -36,11 +36,11 @@ export default {
   },
   methods: {
     edit() {
-      this.statusType.edit = true;
-      this.$emit("status-change", this.statusType);
+      this.actionData.edit = true;
+      this.$emit("status-change", this.actionData);
     },
     statusChange() {
-      if (this.statusType.edit) {
+      if (this.actionData.edit) {
         this.status = "edit";
       } else {
         this.status = "off";

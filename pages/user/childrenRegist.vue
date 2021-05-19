@@ -22,7 +22,7 @@
                   <input
                     type="text"
                     name="last-name"
-                    v-model="input['first-name']"
+                    v-model="input['last-name']"
                     placeholder="きなっぷ"
                   />
                 </fieldset>
@@ -39,7 +39,7 @@
                   <input
                     type="text"
                     name="last-kana"
-                    v-model="input['first-kana']"
+                    v-model="input['last-kana']"
                     placeholder="キナップ"
                   />
                 </fieldset>
@@ -356,6 +356,7 @@ export default {
     return {
       status: "",
       input: this.$ifchildren(),
+      oldInput: {},
       prefecturesList: this.$prefecturesList(),
       busCourse: [],
       goingSchoolItem: [
@@ -367,8 +368,12 @@ export default {
   methods: {
     statusChange(data) {
       if (data.edit) {
+        Object.assign(this.oldInput, this.input);
         this.status = "edit";
       } else {
+        if (data.cancel) {
+          Object.assign(this.input, this.oldInput);
+        }
         this.status = "off";
       }
     },
