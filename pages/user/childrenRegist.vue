@@ -5,7 +5,16 @@
         <div class="basicInfo">
           <dl>
             <dt>
-              <figure></figure>
+              <span>
+                <input type="hidden" v-model="input['img']" />
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/gif"
+                  @change="imgChange"
+                />
+                <button type="button" @click="imgClick">変更</button>
+                <figure></figure>
+              </span>
             </dt>
             <dd>
               <div data-input>
@@ -330,6 +339,7 @@
   </main>
 </template>
 <script>
+import axios from "axios";
 export default {
   layout: "main",
   mounted() {
@@ -363,6 +373,7 @@ export default {
         { key: "parents", value: "保護者送迎" },
         { key: "bus", value: "バス利用" },
       ],
+      img: "",
     };
   },
   methods: {
@@ -373,6 +384,18 @@ export default {
       } else {
         if (data.cancel) {
           Object.assign(this.input, this.oldInput);
+        }
+        if (data.save) {
+          let img = new FormData();
+          img.append("file", this.img);
+          axios
+            .post("/static/img/children/", img)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
         this.status = "off";
       }
@@ -395,6 +418,12 @@ export default {
           this.input["emergency-contact"].pop();
         }
       }
+    },
+    imgClick(event) {
+      event.target.previousElementSibling.click();
+    },
+    imgChange(event) {
+      this.img = event.target.files[0];
     },
     async postSearch() {
       var post = this.input["postno"];

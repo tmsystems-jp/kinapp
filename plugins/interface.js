@@ -32,7 +32,8 @@ function children() {
     address2: "",
     address3: "",
     telephone: "",
-    "emergency-contact": []
+    "emergency-contact": [],
+    img:''
   };
   return data;
 }
