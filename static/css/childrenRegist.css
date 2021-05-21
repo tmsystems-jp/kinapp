@@ -25,6 +25,7 @@ form {
   min-height: 13vw;
   text-align: left;
   display: block;
+  z-index: 100;
 }
 
 *[data-status] .basicInfo dt {
@@ -49,12 +50,14 @@ form {
   height: 8em;
   transform: translate(-50%, 0);
   overflow: hidden;
+  z-index: 100;
 }
 
 .basicInfo dt>span {
   position: relative;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   overflow: hidden;
   display: block;
   z-index: 50;
@@ -63,6 +66,9 @@ form {
 .basicInfo dt figure {
   width: 100%;
   height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   overflow: hidden;
   display: block;
   z-index: 10;

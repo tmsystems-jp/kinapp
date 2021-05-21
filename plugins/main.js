@@ -26,7 +26,55 @@ export default ({ app, store, context }, inject) => {
   inject("prefecturesList", () => prefecturesList());
   inject("nowDate", () => nowDate());
   inject("getAge", (data) => getAge(data));
+  inject("validations", (data, val) => validations(store, data, val));
 };
+function validations(store, data, val) {
+  var flg = false;
+  val.data.forEach((z) => {
+    var kname = z.name;
+    var ed = errorCheck(z, data[kname]);
+    if (ed.flg) {
+      val.path["input-" + kname].parentNode.setAttribute("data-error", "");
+      let error = document.createElement("aside");
+      error.innerHTML =
+        "<p>" +
+        ed.message +
+        '</p><svg viewBox="0 0 64 64"><path d="M31.998 4.298L.038 59.702h63.925zM30 25.702a2 2 0 0 1 4 0v15.995a2 2 0 1 1-4 0zm2.004 26a3.005 3.005 0 0 1-2.13-5.12 3.108 3.108 0 0 1 4.25 0 3 3 0 0 1-2.12 5.12z"></path></svg>';
+      val.path["input-" + kname].parentNode.appendChild(error);
+      flg = true;
+    }
+  });
+  if (flg) {
+    var post = {
+      title: "エラー",
+      message: "入力項目に不備があります､ご確認ください｡",
+      button: [
+        { key: "close", view: "閉じる", style: { color: "", bold: false } },
+      ],
+      btnType: "one",
+    };
+    store.dispatch("alert/openAlert", post);
+  }
+  return flg;
+}
+function errorCheck(key, data) {
+  var ret = {
+    flg: false,
+    message: "",
+  };
+  if (data === "" && key.required) {
+    ret.flg = true;
+    ret.message = message("required");
+  }
+  return ret;
+}
+function message(key) {
+  var md = {
+    required: "必須項目です､入力してください｡",
+    email: "",
+  };
+  return md[key];
+}
 function getAge(data) {
   if (data) {
     var bd = new Date(data);
@@ -77,10 +125,8 @@ function iconSVG(icon) {
     }
   });
   var svgdata = {
-    home:
-      '<svg viewBox="0 0 64 64"><path d="M63 28.715l-8-7.13V10a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v3.564L32.019 1.1 1.021 27.7a1.5 1.5 0 1 0 1.959 2.269l29-24.873L61 30.951a1.5 1.5 0 0 0 2-2.236z"></path><path d="M9 28.934V61a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V42a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v19a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V29.676L32 9.1z"></path></svg>',
-    user:
-      '<svg viewBox="0 0 64 64"><path d="M28 8H8v54h48V8H36"></path><path d="M28 2h8v10h-8z"></path><path d="M44 48H20m16 8H20"></path><circle cx="32" cy="25" r="6"></circle><path d="M42 41a10 10 0 1 0-20 0z"></path></svg>',
+    home: '<svg viewBox="0 0 64 64"><path d="M63 28.715l-8-7.13V10a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v3.564L32.019 1.1 1.021 27.7a1.5 1.5 0 1 0 1.959 2.269l29-24.873L61 30.951a1.5 1.5 0 0 0 2-2.236z"></path><path d="M9 28.934V61a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V42a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v19a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V29.676L32 9.1z"></path></svg>',
+    user: '<svg viewBox="0 0 64 64"><path d="M28 8H8v54h48V8H36"></path><path d="M28 2h8v10h-8z"></path><path d="M44 48H20m16 8H20"></path><circle cx="32" cy="25" r="6"></circle><path d="M42 41a10 10 0 1 0-20 0z"></path></svg>',
     staff:
       '<svg viewBox="0 0 64 64"><path d="M28 4h8v12h-8z"></path><path d="M40 10v10H24V10H2v50h60V10zm-6 42H10s.1-4.3 3.8-5.1 4.2-2.4 4.2-3.3v-1.5a9.3 9.3 0 0 1-3-6.9v-4.5a6.8 6.8 0 0 1 7-6.7 6.8 6.8 0 0 1 6.9 6.7v4.5a9.3 9.3 0 0 1-2.9 6.9v1.5c0 .9 0 2.4 4 3.3a5.1 5.1 0 0 1 4 5.1zm18-8H38a2 2 0 0 1 0-4h14a2 2 0 0 1 0 4zM36 34a2 2 0 0 1 2-2h10a2 2 0 0 1 0 4H38a2 2 0 0 1-2-2zm18-6H38a2 2 0 0 1 0-4h16a2 2 0 0 1 0 4z"></path></svg>',
     password:
@@ -101,15 +147,13 @@ function iconSVG(icon) {
       '<svg viewBox="0 0 64 64"><path id="arrow-left" d="M40 21a2.99 2.99 0 0 1-.879 2.121l-8.636 8.89 8.636 8.868a3 3 0 0 1-4.242 4.242L22 32.011l12.879-13.132A3 3 0 0 1 40 21z"></path><path id="arrow-right" d="M22 21a2.99 2.99 0 0 0 .879 2.121l8.636 8.89-8.636 8.868a3 3 0 0 0 4.242 4.242L40 32.011 27.121 18.879A3 3 0 0 0 22 21z"></path></svg>',
     logout:
       '<svg viewBox="0 0 64 64"><path d="M58.1 5.9a20 20 0 0 0-32.5 22L18 35.4V38h-6v6H6v6H3.2L0 53.2V64h10.8l25.5-25.6A20.1 20.1 0 0 0 44 40 20 20 0 0 0 58.1 5.9zm-5.9 14.3a6 6 0 1 1 0-8.5 6 6 0 0 1 0 8.5z"></path></svg>',
-    edit:
-      '<svg viewBox="0 0 64 64"><path d="M6.732 41.212l30.265-30.265L52.998 26.95 22.734 57.213z"></path><path d="M61.6 18.4c3.7-4.1 3.1-10-1.4-14.6A12 12 0 0 0 51.8 0a9.3 9.3 0 0 0-6.2 2.4z"></path><path d="M4.6 44.7L0 64l19.3-4.5L4.6 44.7zM39.78 8.229l2.97-2.97 16 16.001-2.97 2.97z"></path></svg>',
+    edit: '<svg viewBox="0 0 64 64"><path d="M6.732 41.212l30.265-30.265L52.998 26.95 22.734 57.213z"></path><path d="M61.6 18.4c3.7-4.1 3.1-10-1.4-14.6A12 12 0 0 0 51.8 0a9.3 9.3 0 0 0-6.2 2.4z"></path><path d="M4.6 44.7L0 64l19.3-4.5L4.6 44.7zM39.78 8.229l2.97-2.97 16 16.001-2.97 2.97z"></path></svg>',
     cancel:
       '<svg viewBox="0 0 64 64"><path d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"></path></svg>',
-    save:
-      '<svg viewBox="0 0 64 64"><path d="M16.999 27a2.991 2.991 0 0 0 2.25-1.015L29 14.935V47a3 3 0 0 0 6 0V14.586l9.812 10.466a3 3 0 0 0 4.377-4.104L32 3 14.75 22.016A3 3 0 0 0 17 27z"></path><path d="M55 42a3 3 0 0 0-3 3v11H12V45a3 3 0 0 0-6 0v14a3 3 0 0 0 3 3h46a3 3 0 0 0 3-3V45a3 3 0 0 0-3-3z"></path></svg>',
+    save: '<svg viewBox="0 0 64 64"><path d="M16.999 27a2.991 2.991 0 0 0 2.25-1.015L29 14.935V47a3 3 0 0 0 6 0V14.586l9.812 10.466a3 3 0 0 0 4.377-4.104L32 3 14.75 22.016A3 3 0 0 0 17 27z"></path><path d="M55 42a3 3 0 0 0-3 3v11H12V45a3 3 0 0 0-6 0v14a3 3 0 0 0 3 3h46a3 3 0 0 0 3-3V45a3 3 0 0 0-3-3z"></path></svg>',
     setting:
       '<svg viewBox="0 0 64 64"><path d="M62.081 26.948l-5.236-1.355a25.438 25.438 0 0 0-2.7-6.491l2.78-4.721a2.56 2.56 0 0 0-.4-3.109l-3.637-3.639a2.56 2.56 0 0 0-3.109-.4l-4.718 2.778a25.437 25.437 0 0 0-6.5-2.71l-1.396-5.382A2.56 2.56 0 0 0 34.686 0H29.54a2.56 2.56 0 0 0-2.478 1.919l-1.388 5.363A25.44 25.44 0 0 0 19.123 10L14.3 7.157a2.56 2.56 0 0 0-3.109.4l-3.638 3.635a2.56 2.56 0 0 0-.4 3.109L10 19.123a25.438 25.438 0 0 0-2.679 6.429l-5.4 1.4A2.56 2.56 0 0 0 0 29.427v5.147a2.56 2.56 0 0 0 1.919 2.478l5.354 1.385a25.44 25.44 0 0 0 2.742 6.624l-2.778 4.717a2.56 2.56 0 0 0 .4 3.109l3.639 3.639a2.56 2.56 0 0 0 3.109.4l4.721-2.78a25.436 25.436 0 0 0 6.613 2.736l1.346 5.2A2.56 2.56 0 0 0 29.54 64h5.147a2.56 2.56 0 0 0 2.478-1.919l1.352-5.224a25.438 25.438 0 0 0 6.565-2.733l4.618 2.719a2.56 2.56 0 0 0 3.109-.4l3.639-3.639a2.56 2.56 0 0 0 .4-3.109l-2.719-4.617a25.438 25.438 0 0 0 2.758-6.678l5.194-1.344A2.56 2.56 0 0 0 64 34.573v-5.146a2.56 2.56 0 0 0-1.919-2.479zM32.106 47.035a15 15 0 1 1 15-15 15 15 0 0 1-15 15z"></path></svg>',
-    none: ""
+    none: "",
   };
   return svgdata[name[0]];
 }
@@ -161,7 +205,7 @@ function prefecturesList() {
     { code: 44, name: "大分県" },
     { code: 45, name: "宮崎県" },
     { code: 46, name: "鹿児島県" },
-    { code: 47, name: "沖縄県" }
+    { code: 47, name: "沖縄県" },
   ];
   return pList;
 }

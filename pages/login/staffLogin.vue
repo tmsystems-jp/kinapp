@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div>
+    <div class="login">
       <form @submit.prevent="login">
         <div data-icon="school-left">
           <input

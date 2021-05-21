@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header data-status="off">
     <nav>
       <button
         data-icon="arrow"

@@ -632,7 +632,7 @@ button[data-icon="save"][data-text][data-ibtnt]:before {
   border-left: none;
 }
 
-*[data-icon] svg {
+*[data-icon] figure svg {
   width: 100%;
   height: 100%;
   /* stroke: #000;
@@ -646,11 +646,11 @@ button[data-icon="save"][data-text][data-ibtnt]:before {
   opacity: 0.5;
 }
 
-button[data-icon] svg {
+button[data-icon] figure svg {
   opacity: 0.6;
 }
 
-*[data-icon] svg * {
+*[data-icon] figure svg * {
   fill: #000;
 }
 
@@ -659,17 +659,58 @@ button[data-icon] svg {
   left: -0.5em;
 }
 
-*[data-icon][data-type*="left"] svg *[id*="right"],
-*[data-icon][data-type*="right"] svg *[id*="left"] {
+*[data-icon][data-type*="left"] figure svg *[id*="right"],
+*[data-icon][data-type*="right"] figure svg *[id*="left"] {
   display: none;
 }
 
-button[data-icon="save"][data-text][data-ibtnt] svg {
+button[data-icon="save"][data-text][data-ibtnt] figure svg {
   opacity: 1;
 }
 
-button[data-icon="save"][data-text][data-ibtnt] svg * {
+button[data-icon="save"][data-text][data-ibtnt] figure svg * {
   fill: rgba(0, 122, 255, 1);
+}
+
+*[data-error] {
+  padding-right: 1.5em;
+  border-color: rgba(255, 59, 48, 1) !important;
+  overflow: visible;
+}
+
+*[data-error]>aside {
+  position: absolute;
+  bottom: 0;
+  right: 0.2em;
+  width: auto;
+  height: 1.3em;
+  padding: 0.1em;
+  overflow: visible;
+  display: block;
+}
+
+*[data-error]>aside>p {
+  width: auto;
+  height: auto;
+  padding: 0.1em;
+  font-size: 0.6em;
+  display: block;
+  color: rgba(255, 59, 48, 1);
+  transform: translate(0, 150%);
+}
+
+*[data-error]>aside>svg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  display: block;
+  opacity: 0.8;
+}
+
+*[data-error]>aside>svg * {
+  fill: rgba(255, 59, 48, 1);
 }
 
 /* @media (prefers-color-scheme: dark) {

@@ -4,18 +4,18 @@
       <form @submit.prevent="loginMail">
         <div data-icon="email-left">
           <input
-            v-model="email"
             type="email"
-            name="email"
+            v-model="input.email"
             placeholder="メール"
+            ref="input-email"
           />
         </div>
         <div data-icon="password-left">
           <input
             type="password"
-            name="password"
-            v-model="password"
+            v-model="input.password"
             placeholder="パスワード"
+            ref="input-password"
           />
         </div>
         <button type="submit">認証</button>
@@ -36,16 +36,42 @@ export default {
   },
   data() {
     return {
-      email: "",
-      password: "",
+      input: {
+        email: "",
+        password: "",
+      },
+      validation: {
+        path: this.$refs,
+        data: [
+          {
+            name: "email",
+            value: "",
+            type: "email",
+            required: true,
+          },
+          {
+            name: "password",
+            value: "",
+            type: "password",
+            required: true,
+          },
+        ],
+      },
     };
   },
   methods: {
+    alertModelEvent(key) {
+      console.log("alert");
+      this.$store.dispatch("alert/closeAlert");
+    },
     async loginMail() {
+      if (this.$validations(this.input, this.validation)) {
+        return;
+      }
       // 認証処理
       await this.$store.dispatch("sign/signInWithEmail", {
-        email: this.email,
-        password: this.password,
+        email: this.input.email,
+        password: this.input.password,
         type: "parents",
       });
       const user = this.$store.getters["user"];
@@ -53,7 +79,6 @@ export default {
         console.log("認証成功");
         // 初期データ取得
         this.$store.dispatch("db/pullUserInfo");
-
         // 初期データ取得後、画面遷移
         this.$router.push("/home/parentsHome");
       } else {
@@ -61,13 +86,10 @@ export default {
       }
     },
     async loginGoogle() {
-      console.log("Googleログイン");
       await this.$store.dispatch("sign/signInWithGoogle", { type: "parents" });
       if (this.$store.getters["user"].login) {
-        console.log("Google認証成功");
         // 初期データ取得
         this.$store.dispatch("db/pullUserInfo");
-
         // 初期データ取得後、画面遷移
         this.$router.push("/home/parentsHome");
       } else {

@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <transition-group name="page" mode="out-in" appear>
-      <Nuxt ref="nuxtArea" key="Nuxt" />
+      <Nuxt ref="Nuxt" key="Nuxt" />
     </transition-group>
     <Modal v-if="this.isActive" key="Modal" @event="alertEvent"></Modal>
   </div>
@@ -20,7 +20,13 @@ export default {
   },
   methods: {
     alertEvent(data) {
-      this.$nuxt.$emit("alertModelEvent", data);
+      if (
+        typeof this.$refs.Nuxt.$children[0]["alertModelEvent"] == "function"
+      ) {
+        this.$refs.Nuxt.$children[0].alertModelEvent(data);
+      } else {
+        this.$store.dispatch("alert/closeAlert");
+      }
     },
   },
   computed: {

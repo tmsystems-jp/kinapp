@@ -52,8 +52,13 @@ export default {
   },
   methods: {
     alertEvent(data) {
-      var evName = "alertModelEvent";
-      this.$nuxt.$emit(evName, data);
+      if (
+        typeof this.$refs.Nuxt.$children[0]["alertModelEvent"] == "function"
+      ) {
+        this.$refs.Nuxt.$children[0].alertModelEvent(data);
+      } else {
+        this.$store.dispatch("alert/closeAlert");
+      }
     },
     statusChange(data) {
       this.actionData = data;
@@ -64,7 +69,9 @@ export default {
       if (this.parentsType) {
         this.$refs.pFooter.statusChange();
       }
-      this.$refs.Nuxt.$children[0].statusChange(this.actionData);
+      if (typeof this.$refs.Nuxt.$children[0]["statusChange"] == "function") {
+        this.$refs.Nuxt.$children[0].statusChange(this.actionData);
+      }
       this.actionData.cancel = false;
       this.actionData.save = false;
     },
@@ -73,7 +80,9 @@ export default {
     ...mapState("alert", ["isActive"]),
   },
   mounted() {
-    this.$refs.Nuxt.$children[0].statusChange(this.actionData);
+    if (typeof statusChange == "function") {
+      this.$refs.Nuxt.$children[0].statusChange(this.actionData);
+    }
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
       const user = this.$store.getters["user"];

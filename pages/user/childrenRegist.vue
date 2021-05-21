@@ -13,7 +13,9 @@
                   @change="imgChange"
                 />
                 <button type="button" @click="imgClick">変更</button>
-                <figure></figure>
+                <figure
+                  :style="{ backgroundImage: `url(${viewImg})` }"
+                ></figure>
               </span>
             </dt>
             <dd>
@@ -374,6 +376,7 @@ export default {
         { key: "bus", value: "バス利用" },
       ],
       img: "",
+      viewImg: "",
     };
   },
   methods: {
@@ -386,16 +389,18 @@ export default {
           Object.assign(this.input, this.oldInput);
         }
         if (data.save) {
-          let img = new FormData();
-          img.append("file", this.img);
-          axios
-            .post("/static/img/children/", img)
-            .then((response) => {
-              console.log(response.data);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          if (this.img !== "") {
+            // let img = new FormData();
+            // img.append("file", this.img);
+            // axios
+            //   .post("/static/img/children/", img)
+            //   .then((response) => {
+            //     console.log(response.data);
+            //   })
+            //   .catch((error) => {
+            //     console.log(error);
+            //   });
+          }
         }
         this.status = "off";
       }
@@ -424,6 +429,13 @@ export default {
     },
     imgChange(event) {
       this.img = event.target.files[0];
+      // console.log(event.parentNode.lastChild);
+      var fr = new FileReader();
+      fr.onload = function () {
+        this.viewImg = this.result;
+        console.log(this.viewImg);
+      };
+      fr.readAsDataURL(this.img);
     },
     async postSearch() {
       var post = this.input["postno"];
