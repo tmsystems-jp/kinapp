@@ -44,7 +44,7 @@
             <input
               type="password"
               name="password"
-              v-model="parentInfo['password']"
+              v-model="password"
               placeholder="パスワード ※8桁以上"
             />
           </div>
@@ -52,7 +52,7 @@
             <input
               type="password"
               name="checkPassword"
-              v-model="parentInfo['checkPassword']"
+              v-model="checkPassword"
               placeholder="確認用パスワード"
             />
           </div>
@@ -60,7 +60,7 @@
             <input
               type="text"
               name="childNo"
-              v-model="parentInfo['childNo']"
+              v-model="parentInfo['children']"
               placeholder="園児番号"
             />
           </div>
@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { db } from "~/plugins/firebase";
 import Header from "@/components/loginHeader.vue";
 
 export default {
@@ -92,17 +91,9 @@ export default {
   },
   data() {
     return {
-      parentInfo: {
-        "parent-cd": "",
-        "name-first": "",
-        "name-last": "",
-        "kana-first": "",
-        "kana-last": "",
-        "mail-address": "",
-        children: [],
-        password: "",
-        checkPassword: "",
-      },
+      parentInfo: this.$ifparent(),
+      password: "",
+      checkPassword: "",
     };
   },
   methods: {
@@ -111,27 +102,35 @@ export default {
 
       const authData = {
         email: this.parentInfo["mail-address"],
-        password: this.parentInfo["password"],
+        password: this.password,
         type: "parents",
       };
 
       // Authentication 登録
-      await this.$store.dispatch("sign/emailRegist", authData);
+      // await this.$store.dispatch("sign/emailRegist", authData);
 
       // 保護者情報登録(datasture)
-      const principalDocId = this.$store.getters["sign/user"];
-      const database = db
-        .collection("principal")
-        .doc(principalDocId)
-        .collection("staff");
       const payload = {
-        db: database,
-        data: this.parentInfo,
+        principalDocId: "",
+        dbName: "parent",
+        setData: this.parentInfo,
       };
-      await this.$store.dispatch("registDb/parentRegist", payload);
+      await this.$store.dispatch("db/insert", payload);
 
-      // 認証
-      await this.$store.dispatch("sign/signInWithEmail", authData);
+      // // 認証
+      // await this.$store.dispatch("sign/signInWithEmail", authData);
+
+      // const user = this.$store.getters["user"];
+      // if (user) {
+      console.log("認証成功");
+      //   // 初期データ取得
+      //   this.$store.dispatch("db/pullUserInfo");
+
+      //   // 初期データ取得後、画面遷移
+      //   this.$router.push("/home/parentsHome");
+      // } else {
+      //   console.log("認証失敗");
+      // }
     },
   },
 };

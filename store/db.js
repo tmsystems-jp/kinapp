@@ -144,7 +144,20 @@ export const actions = {
 
     return data;
   },
-  async insert({ commit }, payload) {},
+  async insert({ commit }, payload) {
+    console.log("insertDb");
+    var dbInfo = userDb(payload.principalDocId, payload.dbName);
+    var dbRef = dbInfo.dbpath;
+
+    await dbRef
+      .add(payload.setData)
+      .then((res) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log("error : " + error);
+      });
+  },
   async update({ commit }, payload) {},
   async delete({ commit }, payload) {}
 };

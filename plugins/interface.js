@@ -2,6 +2,7 @@ export default ({ app, store, context }, inject) => {
   inject("ifchildren", () => children());
   inject("ifdocid", () => docid());
   inject("ifdbPayload", () => dbPayload());
+  inject("ifparent", () => parent());
 };
 function children() {
   var data = {
@@ -18,7 +19,6 @@ function children() {
     "school-class": "",
     "going-school": "",
     "gus-course": "",
-    "parent-cd": "",
     "principal-cd": "",
     "admission-date": "",
     "exit-date": "",
@@ -33,7 +33,7 @@ function children() {
     address3: "",
     telephone: "",
     "emergency-contact": [],
-    img:''
+    img: ""
   };
   return data;
 }
@@ -52,6 +52,17 @@ function dbPayload() {
     dbName: "",
     strWhere: [{ columnName: "", strCompare: "", compareVal: "" }],
     docIdList: [docid()]
+  };
+  return data;
+}
+function parent() {
+  var data = {
+    "name-first": "",
+    "name-last": "",
+    "kana-first": "",
+    "kana-last": "",
+    "mail-address": "",
+    children: []
   };
   return data;
 }
