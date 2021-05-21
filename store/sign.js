@@ -57,7 +57,6 @@ export const actions = {
       .createUserWithEmailAndPassword(payload.email, payload.password)
       .then((user) => {
         console.log("user success");
-        // dispatch("checkLogin");
       })
       .catch(function (error) {
         console.log(error);

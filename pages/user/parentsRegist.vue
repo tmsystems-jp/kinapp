@@ -107,7 +107,7 @@ export default {
       };
 
       // Authentication 登録
-      // await this.$store.dispatch("sign/emailRegist", authData);
+      await this.$store.dispatch("sign/emailRegist", authData);
 
       // 保護者情報登録(datasture)
       const payload = {
@@ -118,19 +118,20 @@ export default {
       await this.$store.dispatch("db/insert", payload);
 
       // // 認証
-      // await this.$store.dispatch("sign/signInWithEmail", authData);
+      await this.$store.dispatch("sign/signInWithEmail", authData);
 
-      // const user = this.$store.getters["user"];
-      // if (user) {
-      console.log("認証成功");
-      //   // 初期データ取得
-      //   this.$store.dispatch("db/pullUserInfo");
+      const user = this.$store.getters["user"];
+      console.log(user);
+      if (user) {
+        console.log("認証成功");
+        // 初期データ取得
+        this.$store.dispatch("db/pullUserInfo");
 
-      //   // 初期データ取得後、画面遷移
-      //   this.$router.push("/home/parentsHome");
-      // } else {
-      //   console.log("認証失敗");
-      // }
+        // 初期データ取得後、画面遷移
+        this.$router.push("/home/parentsHome");
+      } else {
+        console.log("認証失敗");
+      }
     },
   },
 };
