@@ -26,55 +26,7 @@ export default ({ app, store, context }, inject) => {
   inject("prefecturesList", () => prefecturesList());
   inject("nowDate", () => nowDate());
   inject("getAge", (data) => getAge(data));
-  inject("validations", (data, val) => validations(store, data, val));
 };
-function validations(store, data, val) {
-  var flg = false;
-  val.data.forEach((z) => {
-    var kname = z.name;
-    var ed = errorCheck(z, data[kname]);
-    if (ed.flg) {
-      val.path["input-" + kname].parentNode.setAttribute("data-error", "");
-      let error = document.createElement("aside");
-      error.innerHTML =
-        "<p>" +
-        ed.message +
-        '</p><svg viewBox="0 0 64 64"><path d="M31.998 4.298L.038 59.702h63.925zM30 25.702a2 2 0 0 1 4 0v15.995a2 2 0 1 1-4 0zm2.004 26a3.005 3.005 0 0 1-2.13-5.12 3.108 3.108 0 0 1 4.25 0 3 3 0 0 1-2.12 5.12z"></path></svg>';
-      val.path["input-" + kname].parentNode.appendChild(error);
-      flg = true;
-    }
-  });
-  if (flg) {
-    var post = {
-      title: "エラー",
-      message: "入力項目に不備があります､ご確認ください｡",
-      button: [
-        { key: "close", view: "閉じる", style: { color: "", bold: false } },
-      ],
-      btnType: "one",
-    };
-    store.dispatch("alert/openAlert", post);
-  }
-  return flg;
-}
-function errorCheck(key, data) {
-  var ret = {
-    flg: false,
-    message: "",
-  };
-  if (data === "" && key.required) {
-    ret.flg = true;
-    ret.message = message("required");
-  }
-  return ret;
-}
-function message(key) {
-  var md = {
-    required: "必須項目です､入力してください｡",
-    email: "",
-  };
-  return md[key];
-}
 function getAge(data) {
   if (data) {
     var bd = new Date(data);

@@ -10,19 +10,19 @@ export default {
       { charset: "utf-8" },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1, viewport-fit=cover"
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       { "http-equiv": "content-language", content: "ja" },
       {
         hid: "description",
         name: "description",
-        content: "Official Nuxt.js starter for CodeSandBox"
-      }
+        content: "Official Nuxt.js starter for CodeSandBox",
+      },
     ],
     link: [
       { rel: "icon", type: "images/favicon.svg", href: "/favicon.svg" },
-      { rel: "stylesheet", href: "/css/main.css" }
-    ]
+      { rel: "stylesheet", href: "/css/main.css" },
+    ],
     // script: [{ type: "text/javascript", src: "/js/main.js", charset: "utf-8" }]
   },
 
@@ -47,7 +47,8 @@ export default {
     { src: "~/plugins/firebase.js", ssr: false },
     { src: "~/plugins/user-agent.js", ssr: false },
     { src: "~/plugins/main.js", ssr: true },
-    { src: "~/plugins/interface.js", ssr: true }
+    { src: "~/plugins/validations.js", ssr: true },
+    { src: "~/plugins/interface.js", ssr: true },
   ],
-  loading: "~/components/loading.vue"
+  loading: "~/components/loading.vue",
 };

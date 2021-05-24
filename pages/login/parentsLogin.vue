@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="login">
-      <form @submit.prevent="loginMail">
+      <form @submit.prevent="loginMail" novalidate="novalidate">
         <div data-icon="email-left">
           <input
             type="email"
@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     alertModelEvent(key) {
-      console.log("alert");
       this.$store.dispatch("alert/closeAlert");
     },
     async loginMail() {
