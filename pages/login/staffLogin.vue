@@ -4,26 +4,29 @@
       <form @submit.prevent="login">
         <div data-icon="school-left">
           <input
-            type="number"
-            v-model="schoolCode"
+            type="text"
+            v-model="input['principal-cd']"
             name="schoolCode"
             placeholder="園コード"
+            ref="input-principal-cd"
           />
         </div>
         <div data-icon="staff-left">
           <input
-            type="number"
+            type="text"
             name="idCode"
-            v-model="idCode"
+            v-model="input['staff-cd']"
             placeholder="職員コード"
+            ref="input-staff-cd"
           />
         </div>
         <div data-icon="password-left">
           <input
             type="password"
             name="password"
-            v-model="password"
+            v-model="input['password']"
             placeholder="パスワード"
+            ref="input-password"
           />
         </div>
         <button type="submit">認証</button>
@@ -42,33 +45,108 @@ export default {
   },
   data() {
     return {
-      schoolCode: "",
-      idCode: "",
-      password: "",
+      input: {
+        "principal-cd": "",
+        "staff-cd": "",
+        password: "",
+      },
+      validation: {
+        path: this.$refs,
+        data: [
+          {
+            name: "principal-cd",
+            value: "",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "staff-cd",
+            value: "",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "password",
+            value: "",
+            type: "password",
+            required: true,
+          },
+        ],
+      },
     };
   },
+
   methods: {
     async login() {
-      // スタッフ情報取得
-      await this.$store.dispatch("db/signInWithEmail", {});
-
-      // 認証処理
-      await this.$store.dispatch("sign/signInWithEmail", {
-        email: this.email,
-        password: this.password,
-        type: "staff",
-      });
-      const user = this.$store.getters["user"];
-      if (user) {
-        console.log("認証成功");
-        // 初期データ取得
-        this.$store.dispatch("db/pullUserInfo");
-
-        // 初期データ取得後、画面遷移
-        this.$router.push("/home/staffHome");
-      } else {
-        console.log("認証失敗");
+      console.log("職員ログイン");
+      // 入力チェック
+      if (this.$validations(this.input, this.validation)) {
+        return;
       }
+      // スタッフ情報取得
+      const payload = {
+        principalDocId: "",
+        dbName: "principal",
+        strWhere: [
+          {
+            columnName: "principal-cd",
+            strCompare: "==",
+            compareVal: this.input["principal-cd"],
+          },
+        ],
+      };
+
+      let principalInfo = null;
+      await this.$store
+        .dispatch("db/selectByWhere", payload)
+        .then((res) => {
+          principalInfo = res;
+        })
+        .catch((error) => {
+          console.log("error1 : " + error);
+        });
+      // 職員情報取得
+      console.log("staffDb");
+      console.log(principalInfo.id);
+      const staffPayload = {
+        principalDocId: principalInfo.id,
+        dbName: "staff",
+        strWhere: [
+          {
+            columnName: "staff-cd",
+            strCompare: "==",
+            compareVal: this.input["staff-cd"],
+          },
+        ],
+      };
+      let staffInfo = null;
+      await this.$store
+        .dispatch("db/selectByWhere", staffPayload)
+        .then((res) => {
+          staffInfo = res;
+        })
+        .catch((error) => {
+          console.log("error1 : " + error);
+        });
+      console.log("staffInfo");
+      console.log(staffInfo);
+      // // 認証処理
+      // await this.$store.dispatch("sign/signInWithEmail", {
+      //   email: this.email,
+      //   password: this.password,
+      //   type: "staff",
+      // });
+      // const user = this.$store.getters["user"];
+      // if (user) {
+      //   console.log("認証成功");
+      //   // 初期データ取得
+      //   this.$store.dispatch("db/pullUserInfo");
+
+      //   // 初期データ取得後、画面遷移
+      //   this.$router.push("/home/staffHome");
+      // } else {
+      //   console.log("認証失敗");
+      // }
     },
   },
 };

@@ -3,6 +3,7 @@ export default ({ app, store, context }, inject) => {
   inject("ifdocid", () => docid());
   inject("ifdbPayload", () => dbPayload());
   inject("ifparent", () => parent());
+  inject("ifprincipal", () => principal());
 };
 function children() {
   var data = {
@@ -63,6 +64,20 @@ function parent() {
     "kana-last": "",
     "mail-address": "",
     children: []
+  };
+  return data;
+}
+function principal() {
+  var data = {
+    "principal-cd": "",
+    name: "",
+    kana: "",
+    "mail-address": "",
+    "post-no": "",
+    fax: "",
+    tel: "",
+    address: "",
+    "admin-staff-cd": ""
   };
   return data;
 }

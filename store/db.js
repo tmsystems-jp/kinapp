@@ -127,20 +127,20 @@ export const actions = {
   async selectByWhere({ commit }, payload) {
     var dbInfo = userDb(payload.principalDocId, payload.dbName);
     var dbRef = dbInfo.dbpath;
-
     var data = null;
 
     payload["strWhere"].forEach((str) => {
       dbRef = dbRef.where(str.columnName, str.strCompare, str.compareVal);
+      console.log("str");
+      console.log(str);
     });
-    await dbRef
-      .get()
-      .then((res) => {
-        data = res.data();
-      })
-      .catch((error) => {
-        console.log("error : " + error);
+
+    await dbRef.get().then((snapShot) => {
+      console.log("snapShot");
+      snapShot.forEach((doc) => {
+        data = { id: doc.id, data: doc.data() };
       });
+    });
 
     return data;
   },
