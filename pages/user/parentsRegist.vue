@@ -104,7 +104,7 @@ export default {
         path: this.$refs,
         data: [
           {
-            name: "email",
+            name: "mail-address",
             value: "",
             type: "email",
             required: true,
@@ -132,7 +132,11 @@ export default {
     async parentsRegist() {
       console.log("保護者登録");
 
-      if (this.$validations(this.input, this.validation)) {
+      const check = this.input.parentInfo;
+      check['password']= this.input.password;
+      check['checkPassword']= this.input.checkPassword;
+
+      if (this.$validations(check, this.validation)) {
         return;
       }
       const authData = {
