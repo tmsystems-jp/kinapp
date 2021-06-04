@@ -8,13 +8,13 @@
             <input
               type="text"
               name="nameFirst"
-              v-model="parentInfo['name-first']"
+              v-model="input.parentInfo['name-first']"
               placeholder="姓"
             />
             <input
               type="text"
               name="nameLast"
-              v-model="parentInfo['name-last']"
+              v-model="input.parentInfo['name-last']"
               placeholder="名"
             />
           </div>
@@ -22,13 +22,13 @@
             <input
               type="text"
               name="kanaFirst"
-              v-model="parentInfo['kana-first']"
+              v-model="input.parentInfo['kana-first']"
               placeholder="姓カナ"
             />
             <input
               type="text"
               name="kanaLast"
-              v-model="parentInfo['kana-last']"
+              v-model="input.parentInfo['kana-last']"
               placeholder="名カナ"
             />
           </div>
@@ -36,32 +36,36 @@
             <input
               type="email"
               name="email"
-              v-model="parentInfo['mail-address']"
+              v-model="input.parentInfo['mail-address']"
               placeholder="メール"
+              ref="input-email"
             />
           </div>
           <div data-icon="password-left">
             <input
               type="password"
               name="password"
-              v-model="password"
+              v-model="input.password"
               placeholder="パスワード ※8桁以上"
+              ref="input-password"
             />
           </div>
           <div data-icon="password-left">
             <input
               type="password"
               name="checkPassword"
-              v-model="checkPassword"
+              v-model="input.checkPassword"
               placeholder="確認用パスワード"
+              ref="input-checkPassword"
             />
           </div>
           <div data-icon="password-left">
             <input
               type="text"
               name="childNo"
-              v-model="parentInfo['children']"
+              v-model="input.parentInfo['children']"
               placeholder="園児番号"
+              ref="input-childNo"
             />
           </div>
           <button type="submit">登録</button>
@@ -91,15 +95,46 @@ export default {
   },
   data() {
     return {
-      parentInfo: this.$ifparent(),
-      password: "",
-      checkPassword: "",
+      input: {
+        parentInfo: this.$ifparent(),
+        password: "",
+        checkPassword: "",
+      },
+      validation: {
+        path: this.$refs,
+        data: [
+          {
+            name: "email",
+            value: "",
+            type: "email",
+            required: true,
+          },
+          {
+            name: "password",
+            value: "",
+            type: "password",
+            required: true,
+          },
+          {
+            name: "checkPassword",
+            value: "",
+            type: "checkPassword",
+            required: true,
+          },
+        ],
+      },
     };
   },
   methods: {
+    alertModelEvent(key) {
+      this.$store.dispatch("alert/closeAlert");
+    },
     async parentsRegist() {
       console.log("保護者登録");
 
+      if (this.$validations(this.input, this.validation)) {
+        return;
+      }
       const authData = {
         email: this.parentInfo["mail-address"],
         password: this.password,

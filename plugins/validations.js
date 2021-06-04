@@ -29,9 +29,9 @@ function validations(store, data, val) {
       message:
         "正しく入力されていない項目があります､メッセージをご確認の上､もう一度ご入力ください｡",
       button: [
-        { key: "close", view: "閉じる", style: { color: "", bold: false } },
+        { key: "close", view: "閉じる", style: { color: "", bold: false } }
       ],
-      btnType: "one",
+      btnType: "one"
     };
     store.dispatch("alert/openAlert", post);
   }
@@ -40,7 +40,7 @@ function validations(store, data, val) {
 function errorCheck(key, data) {
   var ret = {
     flg: false,
-    message: "",
+    message: ""
   };
   if (data === "" && key.required) {
     ret.flg = true;
@@ -62,7 +62,7 @@ function errorCheck(key, data) {
 function message(key) {
   var md = {
     required: "必須項目です､入力してください｡",
-    email: "メールアドレスの形式ではない可能性があります｡",
+    email: "メールアドレスの形式ではない可能性があります｡"
   };
   return md[key];
 }
