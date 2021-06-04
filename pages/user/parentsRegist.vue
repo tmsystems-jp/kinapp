@@ -38,7 +38,7 @@
               name="email"
               v-model="input.parentInfo['mail-address']"
               placeholder="メール"
-              ref="input-email"
+              ref="input-mail-address"
             />
           </div>
           <div data-icon="password-left">
@@ -132,9 +132,9 @@ export default {
     async parentsRegist() {
       console.log("保護者登録");
 
-      const check = this.input.parentInfo;
-      check['password']= this.input.password;
-      check['checkPassword']= this.input.checkPassword;
+      let check = this.input.parentInfo;
+      check["password"] = this.input.password;
+      check["checkPassword"] = this.input.checkPassword;
 
       if (this.$validations(check, this.validation)) {
         return;
