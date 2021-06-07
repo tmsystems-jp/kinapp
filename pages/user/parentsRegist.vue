@@ -2,9 +2,9 @@
   <div>
     <Header />
     <main>
-      <div class="userRegist">
+      <div class="regist">
         <form @submit.prevent="parentsRegist">
-          <div data-icon="password-left">
+          <div data-icon="user-left" data-half>
             <input
               type="text"
               name="nameFirst"
@@ -18,7 +18,7 @@
               placeholder="名"
             />
           </div>
-          <div data-icon="password-left">
+          <div data-icon="user-left" data-half>
             <input
               type="text"
               name="kanaFirst"
@@ -59,14 +59,16 @@
               ref="input-checkPassword"
             />
           </div>
-          <div data-icon="password-left">
-            <input
-              type="text"
-              name="childNo"
-              v-model="input.parentInfo['children']"
-              placeholder="園児番号"
-              ref="input-childNo"
-            />
+          <div data-icon="code-left" data-children>
+            <span v-for="(data, index) in input.parentInfo['children']">
+              <input
+                type="text"
+                v-model="input.parentInfo['children'][index]"
+                :placeholder="`園児番号${index + 1}`"
+                ref="input-childNo"
+                @input="childrenAdd"
+              />
+            </span>
           </div>
           <button type="submit">登録</button>
         </form>
@@ -80,6 +82,7 @@ import Header from "@/components/loginHeader.vue";
 
 export default {
   mounted() {
+    this.input.parentInfo["children"] = [""];
     this.$nextTick(() => {
       this.$initialSetting(this.$el);
     });
@@ -128,6 +131,18 @@ export default {
   methods: {
     alertModelEvent(key) {
       this.$store.dispatch("alert/closeAlert");
+    },
+    childrenAdd() {
+      let cData = this.input.parentInfo["children"];
+      let lnum = cData.length - 1;
+      if (cData[lnum] !== "") {
+        cData.push("");
+      }
+      for (let i = cData.length - 2; i >= 0; --i) {
+        if (cData[i] === "") {
+          cData.splice(i, 1);
+        }
+      }
     },
     async parentsRegist() {
       console.log("保護者登録");

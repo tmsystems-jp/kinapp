@@ -2,153 +2,155 @@
   <div>
     <Header />
     <main>
-      <form @submit.prevent="regist">
-        <div v-if="page.edit">
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="code"
-              v-model="principalInfo['principal-id']"
-              placeholder="幼稚園コード"
-            />
+      <div class="regist">
+        <form @submit.prevent="regist">
+          <div v-if="page.edit">
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="code"
+                v-model="principalInfo['principal-id']"
+                placeholder="幼稚園コード"
+              />
+            </div>
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="name"
+                v-model="principalInfo['name']"
+                placeholder="幼稚園名"
+              />
+            </div>
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="post"
+                v-model="principalInfo['post']"
+                placeholder="郵便番号"
+              />
+            </div>
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="address"
+                v-model="principalInfo['address']"
+                placeholder="住所"
+              />
+            </div>
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="tel"
+                v-model="principalInfo['tel']"
+                placeholder="電話番号"
+              />
+            </div>
+            <div data-icon="email-left">
+              <input
+                type="text"
+                name="fax"
+                v-model="principalInfo['fax']"
+                placeholder="FAX番号"
+              />
+            </div>
+            <button type="submit" @click="update">更新</button>
           </div>
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="name"
-              v-model="principalInfo['name']"
-              placeholder="幼稚園名"
-            />
+          <div v-if="page.code">
+            <dl>
+              <dt>
+                <h3>本人確認</h3>
+                <p>
+                  セキュリティ保護の為､Kinappでは本人であることを確認する必要があります。６桁のパスコードが記載されているメッセージが登録されたメールアドレスに送信されていますので確認後､以下にご入力して下さい｡
+                </p>
+              </dt>
+              <dd>
+                <div>
+                  <input
+                    name="code0"
+                    v-model="code[0]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+                <div>
+                  <input
+                    name="code1"
+                    v-model="code[1]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+                <div>
+                  <input
+                    name="code2"
+                    v-model="code[2]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+                <div>
+                  <input
+                    name="code3"
+                    v-model="code[3]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+                <div>
+                  <input
+                    name="code4"
+                    v-model="code[4]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+                <div>
+                  <input
+                    name="code5"
+                    v-model="code[5]"
+                    type="number"
+                    maxlength="1"
+                    placeholder="－"
+                  />
+                </div>
+              </dd>
+            </dl>
+            <button type="submit">確認</button>
           </div>
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="post"
-              v-model="principalInfo['post']"
-              placeholder="郵便番号"
-            />
+          <div v-if="page.regist">
+            <div data-icon="email-left">
+              <input
+                type="email"
+                name="email"
+                v-model="principalInfo['email']"
+                placeholder="メール"
+              />
+            </div>
+            <div data-icon="password-left">
+              <input
+                type="password"
+                name="password"
+                v-model="principalInfo['password']"
+                placeholder="パスワード ※8桁以上"
+              />
+            </div>
+            <div data-icon="password-left">
+              <input
+                type="password"
+                name="checkPassword"
+                v-model="principalInfo['checkPassword']"
+                placeholder="確認用パスワード"
+              />
+            </div>
+            <button type="submit">登録</button>
           </div>
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="address"
-              v-model="principalInfo['address']"
-              placeholder="住所"
-            />
-          </div>
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="tel"
-              v-model="principalInfo['tel']"
-              placeholder="電話番号"
-            />
-          </div>
-          <div data-icon="email-left">
-            <input
-              type="text"
-              name="fax"
-              v-model="principalInfo['fax']"
-              placeholder="FAX番号"
-            />
-          </div>
-          <button type="submit" @click="update">更新</button>
-        </div>
-        <div v-if="page.code">
-          <dl>
-            <dt>
-              <h3>本人確認</h3>
-              <p>
-                セキュリティ保護の為､Kinappでは本人であることを確認する必要があります。６桁のパスコードが記載されているメッセージが登録されたメールアドレスに送信されていますので確認後､以下にご入力して下さい｡
-              </p>
-            </dt>
-            <dd>
-              <div>
-                <input
-                  name="code0"
-                  v-model="code[0]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-              <div>
-                <input
-                  name="code1"
-                  v-model="code[1]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-              <div>
-                <input
-                  name="code2"
-                  v-model="code[2]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-              <div>
-                <input
-                  name="code3"
-                  v-model="code[3]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-              <div>
-                <input
-                  name="code4"
-                  v-model="code[4]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-              <div>
-                <input
-                  name="code5"
-                  v-model="code[5]"
-                  type="number"
-                  maxlength="1"
-                  placeholder="－"
-                />
-              </div>
-            </dd>
-          </dl>
-          <button type="submit">確認</button>
-        </div>
-        <div v-if="page.regist">
-          <div data-icon="email-left">
-            <input
-              type="email"
-              name="email"
-              v-model="principalInfo['email']"
-              placeholder="メール"
-            />
-          </div>
-          <div data-icon="password-left">
-            <input
-              type="password"
-              name="password"
-              v-model="principalInfo['password']"
-              placeholder="パスワード ※8桁以上"
-            />
-          </div>
-          <div data-icon="password-left">
-            <input
-              type="password"
-              name="checkPassword"
-              v-model="principalInfo['checkPassword']"
-              placeholder="確認用パスワード"
-            />
-          </div>
-          <button type="submit">登録</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </main>
   </div>
 </template>

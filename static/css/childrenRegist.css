@@ -22,7 +22,7 @@ form {
 .basicInfo dl {
   width: 100%;
   height: auto;
-  min-height: 13vw;
+  min-height: 6em;
   text-align: left;
   display: block;
   z-index: 100;

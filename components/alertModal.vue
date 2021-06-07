@@ -180,16 +180,16 @@ export default {
   filter: blur(6px);
 }
 .modal-enter-active {
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
 }
 .modal-leave-active {
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 .modal-enter-active .alert {
-  transition: all 0.15s ease-out 0.15s;
+  transition: all 0.05s ease-out 0s;
 }
 .modal-leave-active .alert {
-  transition: all 0.15s ease-in 0s;
+  transition: all 0.05s ease-in 0s;
 }
 .modal-enter-to,
 .modal-leave {
