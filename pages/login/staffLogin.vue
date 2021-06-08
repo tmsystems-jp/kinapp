@@ -106,8 +106,6 @@ export default {
           console.log("error1 : " + error);
         });
       // 職員情報取得
-      console.log("staffDb");
-      console.log(principalInfo.id);
       const staffPayload = {
         principalDocId: principalInfo.id,
         dbName: "staff",
@@ -128,25 +126,23 @@ export default {
         .catch((error) => {
           console.log("error1 : " + error);
         });
-      console.log("staffInfo");
-      console.log(staffInfo);
-      // // 認証処理
-      // await this.$store.dispatch("sign/signInWithEmail", {
-      //   email: this.email,
-      //   password: this.password,
-      //   type: "staff",
-      // });
-      // const user = this.$store.getters["user"];
-      // if (user) {
-      //   console.log("認証成功");
-      //   // 初期データ取得
-      //   this.$store.dispatch("db/pullUserInfo");
-
-      //   // 初期データ取得後、画面遷移
-      //   this.$router.push("/home/staffHome");
-      // } else {
-      //   console.log("認証失敗");
-      // }
+      // 認証処理
+      console.log();
+      await this.$store.dispatch("sign/signInWithEmail", {
+        email: staffInfo["mail-address"],
+        password: this.password,
+        type: "staff",
+      });
+      const user = this.$store.getters["user"];
+      if (user) {
+        console.log("認証成功");
+        // 初期データ取得
+        await this.$store.dispatch("db/pullUserInfo");
+        // 初期データ取得後、画面遷移
+        this.$router.push("/home/staffHome");
+      } else {
+        console.log("認証失敗");
+      }
     },
   },
 };

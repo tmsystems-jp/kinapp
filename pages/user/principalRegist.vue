@@ -177,21 +177,7 @@ export default {
   data() {
     return {
       code: ["", "", "", "", "", ""],
-      principalInfo: {
-        address: "",
-        "admin-cd": "",
-        "default-password": "",
-        fax: "",
-        kana: "",
-        "mail-address": "",
-        name: "",
-        "pin-code": "",
-        post: "",
-        "principal-id": "",
-        tel: "",
-        password: "",
-        checkPassword: "",
-      },
+      principalInfo: this.$ifprincipal(),
       page: {
         edit: false,
         regist: true,

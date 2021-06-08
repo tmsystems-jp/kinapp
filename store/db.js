@@ -131,12 +131,9 @@ export const actions = {
 
     payload["strWhere"].forEach((str) => {
       dbRef = dbRef.where(str.columnName, str.strCompare, str.compareVal);
-      console.log("str");
-      console.log(str);
     });
 
     await dbRef.get().then((snapShot) => {
-      console.log("snapShot");
       snapShot.forEach((doc) => {
         data = { id: doc.id, data: doc.data() };
       });
@@ -145,7 +142,6 @@ export const actions = {
     return data;
   },
   async insert({ commit }, payload) {
-    console.log("insertDb");
     var dbInfo = userDb(payload.principalDocId, payload.dbName);
     var dbRef = dbInfo.dbpath;
 
@@ -216,7 +212,7 @@ function userDbDocId(docId, num) {
   return value;
 }
 
-function userDb(docId, num) {
+function userDb(principalCd, num) {
   var path = [];
 
   // 幼稚園情報設定
@@ -227,15 +223,12 @@ function userDb(docId, num) {
       setName: "setPrincipal"
     }
   });
-  if (docId["principal-doc-id"]) {
+  if (principalCd) {
     // スタッフ情報設定
     path.push({
       key: "staff",
       value: {
-        dbpath: db
-          .collection("principal")
-          .doc(docId["principal-doc-id"])
-          .collection("staff"),
+        dbpath: db.collection("principal").doc(principalCd).collection("staff"),
         setName: "setStaff"
       }
     });
